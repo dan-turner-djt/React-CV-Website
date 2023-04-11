@@ -16,7 +16,7 @@ const Home = () => {
         <p>This website was created by me using react and hosted by firebase.
           CV information is able to be added, removed, edited and reordered from on the site, post login.
           A demo page is included to show this functionality without requiring authentication.</p>
-        <p>The source code for this website is available to view at </p>
+        <p>The source code for this website is available to view <a href="https://github.com/dan-turner-djt/React-CV-Website">here</a> </p>
       </div>
     </div>
   );
