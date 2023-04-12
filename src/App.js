@@ -21,17 +21,16 @@ function App() {
     { name: "Education", link: links.Education },
     { name: "Projects", link: links.Projects },
     { name: "Japanese", link: links.Japanese },
-    { name: "Demo Page", link: links.DemoPage },
-    { name: "Login", link: links.Login }
+    { name: "Demo Page", link: links.DemoPage }
   ];
 
-  let widthToSet = window.visualViewport.width <= 1100 ? "95%" : "1100px";
+  let widthToSet = window.visualViewport.width < 1100 ? "90%" : "1100px";
 
   return (
     <Router>
       <div className="App">
         <Navbar title={ navbarTitle } items={ navbarItems } />
-        <div className="main-content" style={{maxWidth: widthToSet}}>
+        <div className="main-content" style={{width: widthToSet}}>
           <Switch>
             <Route exact path={ links.Home }>
               <Home/>

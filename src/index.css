@@ -21,6 +21,7 @@ body {
 }
 .navbar-full {
   display: flex;
+  align-items: center;
 }
 .navbar h1 {
   font-size: 30px;
@@ -28,9 +29,10 @@ body {
 .navbar-full h1 {
   margin-left: 5%;
 }
-.navbar .links {
+.navbar-full .links {
   margin-left: auto;
 }
+
 .navbar a {
   margin-left: 16px;
   text-decoration: none;
@@ -38,11 +40,15 @@ body {
   font-weight: 500;
 }
 .navbar a:hover {
-  color: #f1356d;
+  color: #4211f5;
 }
-.navbar button {
+.navbar-full button {
   margin-left: 20px;
   margin-right: 20px;
+}
+
+.navbar-mobile button {
+  margin-right: 10px;
 }
 
 .main-content {
@@ -65,7 +71,7 @@ body {
 }
 
 .button-primary {
-  background: #f1356d;
+  background: #330eda;
   color: #fff;
   border: 0;
   padding: 8px;
@@ -108,7 +114,7 @@ body {
 
 .list-section button {
   background: #eee;
-  color: #f1356d;
+  color: #330eda;
   border: 0;
   border-radius: 8px;
   cursor: pointer;

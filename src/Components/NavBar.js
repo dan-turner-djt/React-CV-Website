@@ -31,7 +31,7 @@ const Navbar = ({ title, items }) => {
     }
   })
 
-  const renderLoginPart = (item) => {
+  const renderLoginPart = () => {
     if (loggedIn) {
       return <button className="button-primary" onClick={ handleLogout }>Logout</button>;
     } else {
@@ -42,20 +42,23 @@ const Navbar = ({ title, items }) => {
   const renderFullMode = () => {
     return <nav className="navbar-full">
       <h1>{ title }</h1>
-      <div className="links">
-        {items.map((item) => (
-          <span className="item" key={ item.name }>
-            {item.name==="Login" && renderLoginPart(item) }
-            {item.name!=="Login" && <Link to={ item.link }>{ item.name }</Link> }
-          </span>
-        ))}
-      </div>
+      <span className="links">
+        <span>
+          {items.map((item) => (
+            <span className="item" key={ item.name }>
+              <Link to={ item.link }>{ item.name }</Link>
+            </span>
+          ))}
+        </span>
+        <span>
+            {renderLoginPart()}
+        </span>
+      </span>
     </nav>
   }
 
   const renderMobileModeLinks = () => {
     const subItems = items.splice(0, 4);
-    const loginItem = items.splice(items.length-1, 1);
     return (
       <div className="split-links">
         <div>
@@ -72,16 +75,18 @@ const Navbar = ({ title, items }) => {
             </span>
           ))}
         </div>
-        <div style={{marginTop: "5px"}}>
-          {renderLoginPart(loginItem)}
-        </div>
       </div>
     )
   }
 
   const renderMobileMode = () => {
     return <nav className="navbar-mobile">
-      <h1 style={{marginBottom: "10px"}}>{ title }</h1>
+      <div style={{display: "flex", justifyContent: "flex-start", marginBottom: "10px", alignItems: "center"}}>
+        <h1 style={{flex: "0 1 auto", left: "50%", transform: "translateX(-50%)", position: "absolute"}}>{ title }</h1>
+        <span style={{flex: "0 1 auto", marginLeft: "auto"}}>
+          {renderLoginPart()}
+        </span>
+      </div>
       <div className="links">
         { renderMobileModeLinks() }
       </div>
