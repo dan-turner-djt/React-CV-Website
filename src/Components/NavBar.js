@@ -9,7 +9,12 @@ const Navbar = ({ title, items }) => {
   const history = useHistory();
   const isMobile = window.visualViewport.width <= 1200;
 
+  const resetScroll = () => {
+    window.scrollTo(0,0);
+  }
+
   const handleLogin = (e) => {
+    resetScroll();
     history.push(Links.Login);
   }
 
@@ -46,7 +51,7 @@ const Navbar = ({ title, items }) => {
         <span>
           {items.map((item) => (
             <span className="item" key={ item.name }>
-              <Link to={ item.link }>{ item.name }</Link>
+              <Link onClick={resetScroll} to={ item.link }>{ item.name }</Link>
             </span>
           ))}
         </span>
@@ -64,14 +69,14 @@ const Navbar = ({ title, items }) => {
         <div>
           {subItems.map((item) => (
             <span className="item" key={ item.name }>
-              <Link to={ item.link }>{ item.name }</Link>
+              <Link onClick={resetScroll} to={ item.link }>{ item.name }</Link>
             </span>
           ))}
         </div>
         <div>
           {items.map((item) => (
             <span className="item" key={ item.name }>
-              <Link to={ item.link }>{ item.name }</Link>
+              <Link onClick={resetScroll} to={ item.link }>{ item.name }</Link>
             </span>
           ))}
         </div>

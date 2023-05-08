@@ -18,6 +18,8 @@ body {
   align-items: center;
   margin: 0 auto;
   background-color: #a6c4f3;
+  position: sticky;
+  top: 0;
 }
 .navbar-full {
   display: flex;
