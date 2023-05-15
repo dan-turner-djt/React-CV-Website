@@ -1,47 +1,42 @@
-import { Link, useHistory } from "react-router-dom";
+import React, { useContext } from "react";
+import { Link, useNavigate } from "react-router-dom";
 import { Links, checkLoggedIn } from "../utils";
 import { useState } from "react";
-import { getAuth, onAuthStateChanged, signOut } from "firebase/auth";
+import { getAuth, signOut } from "firebase/auth";
+import { WindowContext } from "../Contexts/WindowContext";
+import { UserContext } from "../Contexts/UserContext";
 
 const Navbar = ({ title, items }) => {
-  const [loggedIn, setLoggedIn] = useState(checkLoggedIn());
+  const { clientHeight, clientWidth } = useContext(WindowContext);
+  const { loggedIn } = useContext(UserContext);
   const auth = getAuth();
-  const history = useHistory();
-  const isMobile = window.visualViewport.width <= 1200;
+  const isMobile = clientHeight > clientWidth;
+  const navigator = useNavigate();
+
+  const cleanupBeforeNav = () => {
+    resetScroll();
+  }
 
   const resetScroll = () => {
     window.scrollTo(0,0);
   }
 
   const handleLogin = (e) => {
-    resetScroll();
-    history.push(Links.Login);
+    e.preventDefault();
+    cleanupBeforeNav();
+    navigator(Links.Login);
   }
 
   const handleLogout = (e) => {
     signOut(auth)
-    .then(() => {
-      setLoggedIn(false);
-    })
     .catch((err) => {
       console.log(err);
     })
   }
 
-  onAuthStateChanged(auth, (user) => {
-    if (user) {
-      setLoggedIn(true);
-    } else {
-      setLoggedIn(false);
-    }
-  })
-
   const renderLoginPart = () => {
-    if (loggedIn) {
-      return <button className="button-primary" onClick={ handleLogout }>Logout</button>;
-    } else {
-      return <button className="button-primary" onClick={ handleLogin }>Login</button>;
-    }
+    return <button className="button-primary" onClick={ loggedIn? handleLogout : handleLogin }>
+      { loggedIn? "Logout" : "Login" }</button>;
   }
 
   const renderFullMode = () => {
@@ -51,7 +46,7 @@ const Navbar = ({ title, items }) => {
         <span>
           {items.map((item) => (
             <span className="item" key={ item.name }>
-              <Link onClick={resetScroll} to={ item.link }>{ item.name }</Link>
+              <Link onClick={cleanupBeforeNav} to={ item.link }>{ item.name }</Link>
             </span>
           ))}
         </span>
@@ -63,20 +58,21 @@ const Navbar = ({ title, items }) => {
   }
 
   const renderMobileModeLinks = () => {
-    const subItems = items.splice(0, 4);
+    const subItems2 = items.slice(0);
+    const subItems1 = subItems2.splice(0, 4);
     return (
       <div className="split-links">
         <div>
-          {subItems.map((item) => (
+          {subItems1.map((item) => (
             <span className="item" key={ item.name }>
-              <Link onClick={resetScroll} to={ item.link }>{ item.name }</Link>
+              <Link onClick={cleanupBeforeNav} to={ item.link }>{ item.name }</Link>
             </span>
           ))}
         </div>
         <div>
-          {items.map((item) => (
+          {subItems2.map((item) => (
             <span className="item" key={ item.name }>
-              <Link onClick={resetScroll} to={ item.link }>{ item.name }</Link>
+              <Link onClick={cleanupBeforeNav} to={ item.link }>{ item.name }</Link>
             </span>
           ))}
         </div>
@@ -103,7 +99,7 @@ const Navbar = ({ title, items }) => {
     <nav className="navbar">
       {!isMobile && renderFullMode()}
       {isMobile && renderMobileMode()}
-    </nav>    
+    </nav>   
   );
 }
  

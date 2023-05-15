@@ -1,42 +1,38 @@
+import React, { useContext } from "react";
 import { useEffect, useState } from "react";
 import Form from "./GenericForm";
-import { updateOrdering, getFirebaseDocs, setFirebaseDocs, deleteFirebaseDocs, checkLoggedIn } from "../utils";
-import { getAuth } from "firebase/auth";
+import { updateOrdering, getFirebaseDocs, setFirebaseDocs, deleteFirebaseDocs } from "../utils";
+import { WindowContext } from "../Contexts/WindowContext";
+import { UserContext } from "../Contexts/UserContext";
 
 const EditablePage = (props) => {
-  const auth = getAuth();
   const resourceName = props.resourceName;
   const formName = props.formName;
   const fields = props.fields;
+  const { clientHeight, clientWidth } = useContext(WindowContext);
+  const { loggedIn } = useContext(UserContext);
   const [editing, setEditing] = useState(false);
   const [editingItem, setEditingItem] = useState(null);
   const [isLoading, setIsLoading] = useState(true);
   const [isPending, setIsPending] = useState(false);
   const [data, setData] = useState([]);
-  const [loggedIn, setLoggedIn] = useState(checkLoggedIn());
 
-  let widthToSet = window.visualViewport.width <= 700 ? "100%" : "700px";
+  let widthToSet = clientWidth <= 850 ? "95%" : "700px";
 
   useEffect(() => {
     if (props.localOnly) {
-      setLoggedIn(true);
       setIsLoading(false);
       return;
     }
 
     getFirebaseDocs(resourceName)
-    .then((foundDocs) => {
+    .then((foundDocs: React.SetStateAction<any[]>) => {
       setData(foundDocs);
       setIsLoading(false);
-      //console.log(foundDocs);
     })
     .catch((err) => {
       console.log(err);
     })
-
-    setTimeout(() => {
-      setLoggedIn(checkLoggedIn());
-    }, 500);
   }, []);
 
   const handleSavePage = () => {
@@ -170,13 +166,13 @@ const EditablePage = (props) => {
   }
 
   return (
-    <div className="content" style={{maxWidth: widthToSet}}>
+    <div className="content" style={{width: widthToSet}}>
       {!isLoading && props.renderInfoSection(data, renderEditButtons)}
       {isLoading && !props.localOnly && <p>Loading...</p>}
       {editing && <div className="add-section">
         <Form formName={ formName } submitHandler={ handleSubmitForm } fields={ fields } itemsLength= { data.length } editingItem={ editingItem }/>
       </div>}
-      {loggedIn && <button className="button-primary save-page-button" onClick={ handleEditButtonClicked }>{ editing? (isPending? "Saving page..." : "Save Page") : "Edit Page"}</button>}
+      {(loggedIn || props.localOnly) && <button className="button-primary save-page-button" onClick={ handleEditButtonClicked }>{ editing? (isPending? "Saving page..." : "Save Page") : "Edit Page"}</button>}
     </div>
   );
 }

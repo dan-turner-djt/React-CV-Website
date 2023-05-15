@@ -4,6 +4,7 @@ import { getFirestore, collection, getDocs, setDoc, deleteDoc, doc } from 'fireb
 export const checkLoggedIn = () => {
   const auth = getAuth();
   if (auth.currentUser) {
+    console.log("loggedin");
     return true;
   }
   return false;
@@ -58,7 +59,7 @@ export const getFirebaseDocs = (resourceName) => {
 export const setFirebaseDocs = (resourceName, infoToSet, counter = 0) => {
   const db = getFirestore();
 
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     if (infoToSet.length === 0) {
       resolve();
       return;
@@ -93,7 +94,7 @@ export const setFirebaseDocs = (resourceName, infoToSet, counter = 0) => {
 export const deleteFirebaseDocs = (resourceName, infoToSet, counter = 0) => {
   const db = getFirestore();
 
-  return new Promise((resolve, reject) => {
+  return new Promise<void>((resolve, reject) => {
     if (infoToSet.length === 0) {
       resolve();
       return;

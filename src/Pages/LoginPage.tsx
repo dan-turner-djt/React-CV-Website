@@ -1,22 +1,22 @@
-import { useEffect, useState } from "react";
+import React, { useContext } from "react";
+import { useState } from "react";
 import { getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth'
-import { Links, checkLoggedIn } from "../utils";
-import { useHistory } from "react-router-dom";
+import { Links } from "../utils";
+import { useNavigate } from "react-router-dom";
+import { WindowContext } from "../Contexts/WindowContext";
+import { UserContext } from "../Contexts/UserContext";
 
 const LoginPage = () => {
-  const history = useHistory();
+  const { clientHeight, clientWidth } = useContext(WindowContext);
+  const { loggedIn } = useContext(UserContext);
+  const navigator = useNavigate();
   const [username, setUsername] = useState('');
   const [password, setPassword] = useState('');
-  const [loggedIn, setLoggedIn] = useState(false);
   const [error, setError] = useState('');
 
   const auth = getAuth();
 
-  let widthToSet = window.visualViewport.width < 600 ? "100%" : "600px"; 
-
-  useEffect(() => {
-    setLoggedIn(checkLoggedIn());
-  }, []);
+  let widthToSet = clientWidth < 600 ? "100%" : "600px"; 
 
   const handleSubmit = (e) => {
     e.preventDefault();
@@ -26,7 +26,8 @@ const LoginPage = () => {
       setError('');
       setUsername('');
       setPassword('');
-      history.push(Links.Home);
+      window.scrollTo(0,0);
+      navigator(Links.Home);
     })
     .catch((err) => {
       setPassword('');
@@ -37,9 +38,6 @@ const LoginPage = () => {
 
   const handleLogout = (e) => {
     signOut(auth)
-    .then(() => {
-      setLoggedIn(false); 
-    })
     .catch((err) => {
       console.log(err);
     })
@@ -47,7 +45,7 @@ const LoginPage = () => {
 
   return (
     <div className="login-page">
-      {!loggedIn && <form className="form" style={{maxWidth: widthToSet}} onSubmit={ handleSubmit }>
+      {!loggedIn && <form className="form" style={{width: widthToSet}} onSubmit={ handleSubmit }>
         <fieldset>
           <legend>Login</legend>
           <label>Username</label>

@@ -1,13 +1,14 @@
-
+import React, { useContext } from "react";
+import { WindowContext } from "../Contexts/WindowContext";
 
 const Home = () => {
-
-  let widthToSet = window.visualViewport.width <= 700 ? "100%" : "700px";
+  const { clientHeight, clientWidth } = useContext(WindowContext);
+  let widthToSet = clientWidth <= 850 ? "95%" : "700px";
 
   return (
     <div className="home">
       <h2 className="page-title">Welcome</h2>
-      <div className="content" style={{maxWidth: widthToSet}}>
+      <div className="content" style={{width: widthToSet}}>
         <p><i>A motivated software developer with a passion for solving problems with real world applications.</i></p>
         <p>With a master’s degree in computer science, 4 years academic experience and almost 2 years
           professional experience in the software industry, I am a multi-skilled and adaptable developer

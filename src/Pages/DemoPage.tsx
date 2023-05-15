@@ -1,14 +1,15 @@
+import React from "react";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import EditablePage from "../Components/EditablePage";
 
-const Japanese = () => {
-  const resourceName = "japanese";
-  const pageTitle = "Japanese"
-  const formName = "Japanese Item";
+const DemoPage = () => {
+  const resourceName = "demo";
+  const pageTitle = "Demo Page"
+  const formName = "Demo Item";
 
   const fields = [
     {id: 0, name: 'name', title: 'Name', type: 'Input', data: '', required: {required: true}},
-    {id: 1, name: 'body', title: 'Body', type: 'TextArea', data: '', required: {required: true}}
+    {id: 1, name: 'body', title: 'Body', type: 'TextArea', data: ''}
   ]
 
   const renderInfoSection = (data, renderEditButtons) => {
@@ -26,11 +27,15 @@ const Japanese = () => {
   }
 
   return (
-    <div className="japanese-page">
+    <div className="demo-page">
       <h2 className="page-title">{ pageTitle }</h2>
-      <EditablePage resourceName={ resourceName } formName={ formName } fields={ fields } renderInfoSection={renderInfoSection}/>
+      <div className="page-info">
+        <p>This page is for users to demo the editable page functionality without requiring authentication.</p>
+        <p>Note that for security purposes data will not be sent to the server, so local changes will not be saved.</p>
+      </div>
+      <EditablePage localOnly={ true } resourceName={ resourceName } formName={ formName } fields={ fields } renderInfoSection={renderInfoSection}/>
     </div>
   );
 }
  
-export default Japanese;
+export default DemoPage;

@@ -1,11 +1,10 @@
+import React from "react";
 import { useEffect, useRef, useState } from "react";
 
 const Form = (props) => {
   const formName = props.formName;
   const inputRefs = useRef([]);
   const [editing, setEditing] = useState(false);
-
-  let widthToSet = window.visualViewport.width < 600 ? "100%" : "600px"; 
 
   useEffect(() => {
     if (props.editingItem) {
@@ -69,7 +68,7 @@ const Form = (props) => {
   }
 
   return (
-    <form className="form" style={{maxWidth: widthToSet}} onSubmit={ handleSubmit }>
+    <form className="form" onSubmit={ handleSubmit }>
       <fieldset>
         <legend>{editing? 'Edit' : 'New'} { formName }</legend>
         {props.fields.map((field) => (

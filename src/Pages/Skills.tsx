@@ -1,3 +1,4 @@
+import React from "react";
 import EditablePage from "../Components/EditablePage";
 
 const Skills = () => {
