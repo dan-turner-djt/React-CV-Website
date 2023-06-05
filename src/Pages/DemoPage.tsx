@@ -1,21 +1,22 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import EditablePage from "../Components/EditablePage";
+import { Field } from "../Components/GenericForm";
 
 const DemoPage = () => {
-  const resourceName = "demo";
-  const pageTitle = "Demo Page"
-  const formName = "Demo Item";
+  const resourceName: string = "demo";
+  const pageTitle: string = "Demo Page"
+  const formName: string = "Demo Item";
 
-  const fields = [
+  const fields: Field[] = [
     {id: 0, name: 'name', title: 'Name', type: 'Input', data: '', required: {required: true}},
     {id: 1, name: 'body', title: 'Body', type: 'TextArea', data: ''}
   ]
 
-  const renderInfoSection = (data, renderEditButtons) => {
+  const renderInfoSection = (data: any, renderEditButtons: (item: any) => ReactNode) => {
     if (data) {
       return <div className="list-section">
-        {data.map((item) => (
+        {data.map((item: any) => (
           !item.deleted && <div className="list-item" key={ item.doc.id }>
             <h3>{ item.doc.name }</h3>
             <ReactMarkdown>{ item.doc.body }</ReactMarkdown>

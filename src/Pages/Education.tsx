@@ -1,13 +1,14 @@
 import React from "react";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import EditablePage from "../Components/EditablePage";
+import { Field } from "../Components/GenericForm";
 
 const Education = () => {
-  const resourceName = "education";
-  const pageTitle = "Education"
-  const formName = "Education Item";
+  const resourceName: string = "education";
+  const pageTitle: string = "Education"
+  const formName: string = "Education Item";
 
-  const fields = [
+  const fields: Field[] = [
     {id: 0, name: 'name', title: 'Name', type: 'Input', data: '', required: {required: true}},
     {id: 1, name: 'place', title: 'Place', type: 'Input', data: ''},
     {id: 2, name: 'grades', title: 'Grades', type: 'Input', data: '', required: {required: true}},

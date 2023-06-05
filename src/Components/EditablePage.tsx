@@ -1,23 +1,31 @@
-import React, { useContext } from "react";
+import React, { ReactNode, useContext } from "react";
 import { useEffect, useState } from "react";
-import Form from "./GenericForm";
+import Form, { Field } from "./GenericForm";
 import { updateOrdering, getFirebaseDocs, setFirebaseDocs, deleteFirebaseDocs } from "../utils";
 import { WindowContext } from "../Contexts/WindowContext";
-import { UserContext } from "../Contexts/UserContext";
+import { UserContext, UserContextProps } from "../Contexts/UserContext";
 
-const EditablePage = (props) => {
-  const resourceName = props.resourceName;
-  const formName = props.formName;
-  const fields = props.fields;
-  const { clientHeight, clientWidth } = useContext(WindowContext);
-  const { loggedIn } = useContext(UserContext);
-  const [editing, setEditing] = useState(false);
+export type EditablePageProps = {
+  formName: string;
+  resourceName: string;
+  fields: Field[];
+  renderInfoSection: (data: any, renderEditButtons: (item: any) => ReactNode) => ReactNode;
+  localOnly?: boolean;
+}
+
+const EditablePage = (props: EditablePageProps) => {
+  const resourceName: string = props.resourceName;
+  const formName: string = props.formName;
+  const fields: Field[] = props.fields;
+  const { clientHeight, clientWidth } = useContext<{clientHeight: number, clientWidth: number}>(WindowContext);
+  const { loggedIn } = useContext<UserContextProps>(UserContext);
+  const [editing, setEditing] = useState<boolean>(false);
   const [editingItem, setEditingItem] = useState(null);
-  const [isLoading, setIsLoading] = useState(true);
-  const [isPending, setIsPending] = useState(false);
-  const [data, setData] = useState([]);
+  const [isLoading, setIsLoading] = useState<boolean>(true);
+  const [isPending, setIsPending] = useState<boolean>(false);
+  const [data, setData] = useState<any>([]);
 
-  let widthToSet = clientWidth <= 850 ? "95%" : "700px";
+  let widthToSet: string = clientWidth <= 850 ? "95%" : "700px";
 
   useEffect(() => {
     if (props.localOnly) {
@@ -38,8 +46,8 @@ const EditablePage = (props) => {
   const handleSavePage = () => {
     setIsPending(true);
 
-    let toDelete = [];
-    data.forEach((item) => {
+    let toDelete: any[] = [];
+    data.forEach((item: any) => {
       if (item.deleted) {
         toDelete.push(item.doc);
       }
@@ -58,7 +66,7 @@ const EditablePage = (props) => {
     }
   }
 
-  const updateAndSaveData = (localOnly) => {
+  const updateAndSaveData = (localOnly: boolean) => {
     let updatedData = [...data];
     for (let i = 0; i < updatedData.length; i++) {
       if (updatedData[i].deleted) {
@@ -76,7 +84,7 @@ const EditablePage = (props) => {
       return;
     }
 
-    let toUpdate = [];
+    let toUpdate: any[] = [];
     orderedData.forEach((item) => {
       if (item.edited) {
         toUpdate.push(item.doc);
@@ -93,9 +101,9 @@ const EditablePage = (props) => {
     });
   }
   
-  const handleSubmitForm = (newData, isNew) => {
+  const handleSubmitForm = (newData: any, isNew: boolean) => {
     if (isNew) {
-      setData(oldData => [...oldData, {doc: newData, edited: true, deleted: false}]);
+      setData((oldData: any) => [...oldData, {doc: newData, edited: true, deleted: false}]);
     } else {
       let updatedData = [...data];
       updatedData.find((item) => item.doc.id === newData.id).doc = newData;
@@ -103,10 +111,9 @@ const EditablePage = (props) => {
       setData(updatedData);
       setEditingItem(null);
     }
-    
   }
 
-  const handleDelete = (deletedItem) => {
+  const handleDelete = (deletedItem: any) => {
     let updatedData = [...data];
     updatedData.find((item) => item.doc.id === deletedItem.id).deleted = true;
     updatedData.find((item) => item.doc.id === deletedItem.id).doc.order = -1;
@@ -114,7 +121,7 @@ const EditablePage = (props) => {
     setData(updatedData);
   }
 
-  const handleMoveUp = (targetItem) => {
+  const handleMoveUp = (targetItem: any) => {
     if (targetItem.order > 0) {
       const previousItemId = data[targetItem.order-1].doc.id;
 
@@ -128,7 +135,7 @@ const EditablePage = (props) => {
     }
   }
 
-  const handleMoveDown = (targetItem) => {
+  const handleMoveDown = (targetItem: any) => {
     if (targetItem.order < data.length-1) {
       const nextItemId = data[targetItem.order+1].doc.id;
 
@@ -150,11 +157,11 @@ const EditablePage = (props) => {
     }
   }
 
-  const handleEditItem = (item) => {
+  const handleEditItem = (item: any) => {
     setEditingItem(item);
   }
 
-  const renderEditButtons = (item) => {
+  const renderEditButtons = (item: any) => {
     if (editing) {
       return <span className="edit-buttons">
       <button onClick={ () => {handleEditItem(item)} }>~</button>

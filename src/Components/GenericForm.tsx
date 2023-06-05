@@ -1,7 +1,24 @@
-import React from "react";
+import React, { FormEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 
-const Form = (props) => {
+export type Field = {
+  id: number,
+  name: string,
+  title: string,
+  type: string,
+  data: string,
+  required?: {required: boolean}
+};
+
+export type FormProps = {
+  formName: string;
+  editingItem: any;
+  fields: Field[];
+  itemsLength: number;
+  submitHandler: (newData: any, isNew: boolean) => void;
+}
+
+const Form = (props: FormProps) => {
   const formName = props.formName;
   const inputRefs = useRef([]);
   const [editing, setEditing] = useState(false);
@@ -15,13 +32,13 @@ const Form = (props) => {
     }
   }, [props.editingItem])
 
-  const fillFormFields = (item) => {
+  const fillFormFields = (item: any) => {
     inputRefs.current.forEach((inputRef) => {
       inputRef.value = item.doc[inputRef.name];
     });
   }
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
     let data = [];
@@ -45,13 +62,12 @@ const Form = (props) => {
     }
   }
 
-  const renderField = (field) => {
+  const renderField = (field: Field) => {
     switch(field.type) {
       case 'TextArea':
         return <textarea
         ref={(ref) => {inputRefs.current[field.id] = ref}}
         name={ field.name }
-        type="text"
         { ...field.required }>
         </textarea>;
       case 'Input':
@@ -71,7 +87,7 @@ const Form = (props) => {
     <form className="form" onSubmit={ handleSubmit }>
       <fieldset>
         <legend>{editing? 'Edit' : 'New'} { formName }</legend>
-        {props.fields.map((field) => (
+        {props.fields.map((field: Field) => (
           <div key={ field.id }>
             <label>{ field.title }</label>
             { renderField(field) }

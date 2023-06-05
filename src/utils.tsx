@@ -1,10 +1,9 @@
 import { getAuth } from 'firebase/auth';
 import { getFirestore, collection, getDocs, setDoc, deleteDoc, doc } from 'firebase/firestore';
 
-export const checkLoggedIn = () => {
+export const checkLoggedIn = (): boolean => {
   const auth = getAuth();
   if (auth.currentUser) {
-    console.log("loggedin");
     return true;
   }
   return false;
@@ -33,7 +32,7 @@ export const updateOrdering = (list) => {
   return orderedList;
 }
 
-export const getFirebaseDocs = (resourceName) => {
+export const getFirebaseDocs = (resourceName: string) => {
   const db = getFirestore();
   const colRef = collection(db, resourceName);
 
@@ -56,7 +55,7 @@ export const getFirebaseDocs = (resourceName) => {
   });
 }
 
-export const setFirebaseDocs = (resourceName, infoToSet, counter = 0) => {
+export const setFirebaseDocs = (resourceName: string, infoToSet, counter = 0) => {
   const db = getFirestore();
 
   return new Promise<void>((resolve, reject) => {
@@ -91,7 +90,7 @@ export const setFirebaseDocs = (resourceName, infoToSet, counter = 0) => {
   });
 }
 
-export const deleteFirebaseDocs = (resourceName, infoToSet, counter = 0) => {
+export const deleteFirebaseDocs = (resourceName: string, infoToSet, counter = 0) => {
   const db = getFirestore();
 
   return new Promise<void>((resolve, reject) => {

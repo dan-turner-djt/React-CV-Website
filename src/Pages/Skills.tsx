@@ -1,12 +1,13 @@
 import React from "react";
 import EditablePage from "../Components/EditablePage";
+import { Field } from "../Components/GenericForm";
 
 const Skills = () => {
-  const resourceName = "skills";
-  const pageTitle = "Skills/Technologies"
-  const formName = "Skill";
+  const resourceName: string = "skills";
+  const pageTitle: string = "Skills/Technologies"
+  const formName: string = "Skill";
 
-  const fields = [
+  const fields: Field[] = [
     {id: 0, name: 'name', title: 'Name', type: 'Input', data: '', required: {required: true}}
   ]
 

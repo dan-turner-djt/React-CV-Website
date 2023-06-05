@@ -1,4 +1,4 @@
-import React from "react";
+import React, { FC, ReactNode, createContext } from "react";
 import { useCallback, useEffect, useState } from 'react';
 
 export type WindowContextProps = {
@@ -6,13 +6,13 @@ export type WindowContextProps = {
   clientWidth: number;
 };
 
-export const WindowContext = React.createContext<WindowContextProps>({ clientHeight: 0, clientWidth: 0, });
+export const WindowContext = createContext<WindowContextProps>({ clientHeight: 0, clientWidth: 0, });
 
 export type WindowContextProviderProps = {
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
-export const WindowContextProvider: React.FC<WindowContextProviderProps> = ({ children }) => {
+export const WindowContextProvider: FC<WindowContextProviderProps> = ({ children }) => {
   const getVh = useCallback(() => {
     return window.visualViewport.height;
   }, []);

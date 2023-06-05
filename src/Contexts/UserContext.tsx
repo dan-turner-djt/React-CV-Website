@@ -1,18 +1,18 @@
 import { getAuth, onAuthStateChanged } from "firebase/auth";
-import React from "react";
+import React, { FC, ReactNode, createContext } from "react";
 import { useEffect, useState } from 'react';
 
 export type UserContextProps = {
   loggedIn: boolean;
 };
 
-export const UserContext = React.createContext<UserContextProps>({loggedIn: false});
+export const UserContext = createContext<UserContextProps>({loggedIn: false});
 
 export type UserContextProviderProps = {
-  children: React.ReactNode;
+  children: ReactNode;
 };
 
-export const UserContextProvider: React.FC<UserContextProviderProps> = ({ children }) => {
+export const UserContextProvider: FC<UserContextProviderProps> = ({ children }) => {
   const [loggedIn, setLoggedIn] = useState<boolean>(false);
 
   useEffect(() => {

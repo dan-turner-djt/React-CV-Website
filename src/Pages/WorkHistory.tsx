@@ -1,13 +1,14 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import EditablePage from "../Components/EditablePage";
+import { Field } from "../Components/GenericForm";
 
 const WorkHistory = () => {
-  const resourceName = "careerSummary";
-  const pageTitle = "Career Summary"
-  const formName = "Career Item";
+  const resourceName: string = "careerSummary";
+  const pageTitle: string = "Career Summary"
+  const formName: string = "Career Item";
 
-  const fields = [
+  const fields: Field[] = [
     {id: 0, name: 'jobTitle', title: 'Job Title', type: 'Input', data: '', required: {required: true}},
     {id: 1, name: 'company', title: 'Company', type: 'Input', data: '', required: {required: true}},
     {id: 2, name: 'startDate', title: 'Start Date', type: 'Input', data: '', required: {required: true}},
