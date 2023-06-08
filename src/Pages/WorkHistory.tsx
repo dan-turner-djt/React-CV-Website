@@ -2,6 +2,18 @@ import React, { ReactNode } from "react";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import EditablePage from "../Components/EditablePage";
 import { Field } from "../Components/GenericForm";
+import { FormattedDoc } from "../utils";
+
+export type WorkHistoryDocInfo = {
+  id: string,
+  jobTitle: string,
+  company: string,
+  startDate: string,
+  endDate: string,
+  location: string,
+  info: string,
+  order: number
+}
 
 const WorkHistory = () => {
   const resourceName: string = "careerSummary";
@@ -17,10 +29,10 @@ const WorkHistory = () => {
     {id: 5, name: 'info', title: 'Info', type: 'TextArea', data: ''}
   ]
 
-  const renderInfoSection = (data, renderEditButtons) => {
+  const renderInfoSection = (data: FormattedDoc[], renderEditButtons: (item: FormattedDoc) => ReactNode) => {
     if (data) {
       return <div className="list-section">
-        {data.map((item) => (
+        {data.map((item: {doc: WorkHistoryDocInfo, edited: boolean, deleted: boolean}) => (
           !item.deleted && <div className="list-item" key={ item.doc.id }>
             <h4>{ item.doc.startDate } - { item.doc.endDate }:</h4>
             <h3>{ item.doc.jobTitle } - { item.doc.company}, { item.doc.location }</h3>

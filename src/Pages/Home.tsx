@@ -1,9 +1,9 @@
 import React, { useContext } from "react";
-import { WindowContext } from "../Contexts/WindowContext";
+import { WindowContext, WindowContextProps } from "../Contexts/WindowContext";
 
 const Home = () => {
-  const { clientHeight, clientWidth } = useContext(WindowContext);
-  let widthToSet = clientWidth <= 850 ? "95%" : "700px";
+  const { clientHeight, clientWidth } = useContext<WindowContextProps>(WindowContext);
+  let widthToSet: string = clientWidth <= 850 ? "95%" : "700px";
 
   return (
     <div className="home">

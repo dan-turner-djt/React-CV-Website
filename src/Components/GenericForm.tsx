@@ -1,5 +1,6 @@
 import React, { FormEvent } from "react";
 import { useEffect, useRef, useState } from "react";
+import { DocInfo, FormattedDoc } from "../utils";
 
 export type Field = {
   id: number,
@@ -12,16 +13,16 @@ export type Field = {
 
 export type FormProps = {
   formName: string;
-  editingItem: any;
+  editingItem: FormattedDoc;
   fields: Field[];
   itemsLength: number;
-  submitHandler: (newData: any, isNew: boolean) => void;
+  submitHandler: (newData: DocInfo, isNew: boolean) => void;
 }
 
 const Form = (props: FormProps) => {
-  const formName = props.formName;
-  const inputRefs = useRef([]);
-  const [editing, setEditing] = useState(false);
+  const formName: string = props.formName;
+  const inputRefs = useRef<(HTMLInputElement | HTMLTextAreaElement)[]>([]);
+  const [editing, setEditing] = useState<boolean>(false);
 
   useEffect(() => {
     if (props.editingItem) {
@@ -32,16 +33,16 @@ const Form = (props: FormProps) => {
     }
   }, [props.editingItem])
 
-  const fillFormFields = (item: any) => {
-    inputRefs.current.forEach((inputRef) => {
-      inputRef.value = item.doc[inputRef.name];
+  const fillFormFields = (item: FormattedDoc) => {
+    inputRefs.current.forEach((inputRef: HTMLInputElement) => {
+      inputRef.value = String(item.doc[inputRef.name as keyof DocInfo]);
     });
   }
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    let data = [];
+    let data: {name: string, value: number | string}[] = [];
     inputRefs.current.forEach((inputRef) => {
       data.push({name: inputRef.name, value: inputRef.value});
       inputRef.value = '';
@@ -51,13 +52,17 @@ const Form = (props: FormProps) => {
       data.push({name: 'order', value: props.editingItem.doc.order});
       data.push({name: 'id', value: props.editingItem.doc.id});
 
-      const toSend = data.reduce((obj, item) => Object.assign(obj, {[item.name]: item.value}), {});
+      const toSend: DocInfo = 
+        data.reduce((obj, item: {name: string, value: string | number}) => ({...obj, [item.name]: item.value}),
+        {} as DocInfo);
       props.submitHandler(toSend, false);
     } else {
       data.push({name: 'order', value: props.itemsLength});
       data.push({name: 'id', value: String(Math.random())});
 
-      const toSend = data.reduce((obj, item) => Object.assign(obj, {[item.name]: item.value}), {});
+      const toSend: DocInfo =
+        data.reduce((obj, item: {name: string, value: string | number}) => ({...obj, [item.name]: item.value}),
+        {} as DocInfo);
       props.submitHandler(toSend, true);
     }
   }
@@ -94,7 +99,7 @@ const Form = (props: FormProps) => {
           </div>
         ))}
         <div className="form-button">
-          <button className="button-primary">{editing? 'Save' : 'Add'} { formName }</button>
+          <button type="button" className="button-primary">{editing? 'Save' : 'Add'} { formName }</button>
         </div>
       </fieldset>
     </form>

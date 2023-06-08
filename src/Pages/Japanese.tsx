@@ -1,7 +1,15 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import EditablePage from "../Components/EditablePage";
 import { Field } from "../Components/GenericForm";
+import { FormattedDoc } from "../utils";
+
+export type JapaneseDocInfo = {
+  id: string,
+  name: string,
+  body: string,
+  order: number
+}
 
 const Japanese = () => {
   const resourceName: string = "japanese";
@@ -13,10 +21,10 @@ const Japanese = () => {
     {id: 1, name: 'body', title: 'Body', type: 'TextArea', data: '', required: {required: true}}
   ]
 
-  const renderInfoSection = (data, renderEditButtons) => {
+  const renderInfoSection = (data: FormattedDoc[], renderEditButtons: (item: FormattedDoc) => ReactNode) => {
     if (data) {
       return <div className="list-section">
-        {data.map((item) => (
+        {data.map((item: {doc: JapaneseDocInfo, edited: boolean, deleted: boolean}) => (
           !item.deleted && <div className="list-item" key={ item.doc.id }>
             <h3>{ item.doc.name }</h3>
             <ReactMarkdown>{ item.doc.body }</ReactMarkdown>

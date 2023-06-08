@@ -1,7 +1,19 @@
-import React from "react";
+import React, { ReactNode } from "react";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import EditablePage from "../Components/EditablePage";
 import { Field } from "../Components/GenericForm";
+import { FormattedDoc } from "../utils";
+
+export type EducationDocInfo = {
+  id: string,
+  name: string,
+  startDate: string,
+  endDate: string,
+  place: string,
+  grades: string,
+  info: string,
+  order: number
+}
 
 const Education = () => {
   const resourceName: string = "education";
@@ -17,10 +29,10 @@ const Education = () => {
     {id: 5, name: 'info', title: 'Info', type: 'TextArea', data: ''}
   ]
 
-  const renderInfoSection = (data, renderEditButtons) => {
+  const renderInfoSection = (data: FormattedDoc[], renderEditButtons: (item: FormattedDoc) => ReactNode) => {
     if (data) {
       return <div className="list-section">
-        {data.map((item) => (
+        {data.map((item: {doc: EducationDocInfo, edited: boolean, deleted: boolean}) => (
           !item.deleted && <div className="list-item" key={ item.doc.id }>
             {item.doc.startDate && <h4>{ item.doc.startDate } - { item.doc.endDate }:</h4>}
             <h3>{ item.doc.name }{item.doc.place ? ', '+item.doc.place : ''}</h3>

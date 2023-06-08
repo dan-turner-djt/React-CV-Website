@@ -1,5 +1,19 @@
 import { getAuth } from 'firebase/auth';
 import { getFirestore, collection, getDocs, setDoc, deleteDoc, doc } from 'firebase/firestore';
+import { SkillsDocInfo } from './Pages/Skills';
+import { WorkHistoryDocInfo } from './Pages/WorkHistory';
+import { EducationDocInfo } from './Pages/Education';
+import { ProjectsDocInfo } from './Pages/Projects';
+import { JapaneseDocInfo } from './Pages/Japanese';
+import { DemoPageDocInfo } from './Pages/DemoPage';
+
+export type DocInfo = SkillsDocInfo | WorkHistoryDocInfo | EducationDocInfo | ProjectsDocInfo | JapaneseDocInfo | DemoPageDocInfo;
+
+export type FormattedDoc = {
+  doc: DocInfo,
+  edited: boolean,
+  deleted: boolean
+}
 
 export const checkLoggedIn = (): boolean => {
   const auth = getAuth();
@@ -20,8 +34,8 @@ export const Links = {
   Login: '/login'
 }
 
-export const updateOrdering = (list) => {
-  let orderedList = [...list];
+export const updateOrdering = (list: FormattedDoc[]): FormattedDoc[] => {
+  let orderedList: FormattedDoc[] = [...list];
   orderedList.sort((a,b) => Number(a.doc.order) - Number(b.doc.order));
   orderedList.forEach((item, i) => {
     if (!item.deleted && item.doc.order !== i) {
@@ -32,22 +46,22 @@ export const updateOrdering = (list) => {
   return orderedList;
 }
 
-export const getFirebaseDocs = (resourceName: string) => {
+export const getFirebaseDocs = (resourceName: string): Promise<FormattedDoc[]> => {
   const db = getFirestore();
   const colRef = collection(db, resourceName);
 
-  return new Promise((resolve, reject) => {
+  return new Promise<FormattedDoc[]>((resolve, reject) => {
     getDocs(colRef)
     .then((snapshot) => {
-      let foundDocs = [];
+      let foundDocs: DocInfo[] = [];
       snapshot.docs.forEach((document) => {
-        foundDocs.push({ ...document.data(), id: document.id });
+        foundDocs.push({ ...(document.data() as DocInfo), id: document.id });
       })
-      foundDocs = foundDocs.map((docInfo) => {
+      let formattedDocs: FormattedDoc[] = foundDocs.map((docInfo: DocInfo) => {
         return {doc: docInfo, edited: false, deleted: false};
       })
-      foundDocs = updateOrdering(foundDocs);
-      resolve(foundDocs);
+      formattedDocs = updateOrdering(formattedDocs);
+      resolve(formattedDocs);
     })
     .catch(err => {
       reject(err);
@@ -55,7 +69,7 @@ export const getFirebaseDocs = (resourceName: string) => {
   });
 }
 
-export const setFirebaseDocs = (resourceName: string, infoToSet, counter = 0) => {
+export const setFirebaseDocs = (resourceName: string, infoToSet: DocInfo[], counter: number = 0): Promise<void> => {
   const db = getFirestore();
 
   return new Promise<void>((resolve, reject) => {
@@ -63,9 +77,9 @@ export const setFirebaseDocs = (resourceName: string, infoToSet, counter = 0) =>
       resolve();
       return;
     }
-    const data = infoToSet[counter];
-    const id = data.id;
-    setDoc(doc(db, resourceName, String(id)), data)
+    const data: DocInfo = infoToSet[counter];
+    const id: string = data.id;
+    setDoc(doc(db, resourceName, id), data)
     .then(() => {
       counter++;
       if (counter > 100) {
@@ -90,7 +104,7 @@ export const setFirebaseDocs = (resourceName: string, infoToSet, counter = 0) =>
   });
 }
 
-export const deleteFirebaseDocs = (resourceName: string, infoToSet, counter = 0) => {
+export const deleteFirebaseDocs = (resourceName: string, infoToSet: DocInfo[], counter: number = 0): Promise<void> => {
   const db = getFirestore();
 
   return new Promise<void>((resolve, reject) => {
@@ -98,8 +112,8 @@ export const deleteFirebaseDocs = (resourceName: string, infoToSet, counter = 0)
       resolve();
       return;
     }
-    const id = infoToSet[counter].id;
-    deleteDoc(doc(db, resourceName, String(id)))
+    const id: string = infoToSet[counter].id;
+    deleteDoc(doc(db, resourceName, id))
     .then(() => {
       counter++;
       if (counter > 100) {

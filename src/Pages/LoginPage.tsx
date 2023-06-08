@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { FormEvent, useContext } from "react";
 import { useState } from "react";
 import { getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth'
 import { Links } from "../utils";
@@ -18,7 +18,7 @@ const LoginPage = () => {
 
   let widthToSet = clientWidth < 600 ? "100%" : "600px"; 
 
-  const handleSubmit = (e) => {
+  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     
     signInWithEmailAndPassword(auth, username, password)
@@ -36,7 +36,7 @@ const LoginPage = () => {
     })
   }
 
-  const handleLogout = (e) => {
+  const handleLogout = () => {
     signOut(auth)
     .catch((err) => {
       console.log(err);
@@ -66,7 +66,7 @@ const LoginPage = () => {
           </input>
           <p className="error-message">{ error }</p>
           <div className="form-button">
-            <button className="button-primary">Login</button>
+            <button className="button-primary" type="button">Login</button>
           </div>
         </fieldset>
       </form>}

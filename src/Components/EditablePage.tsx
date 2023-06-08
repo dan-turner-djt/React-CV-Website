@@ -1,15 +1,15 @@
 import React, { ReactNode, useContext } from "react";
 import { useEffect, useState } from "react";
 import Form, { Field } from "./GenericForm";
-import { updateOrdering, getFirebaseDocs, setFirebaseDocs, deleteFirebaseDocs } from "../utils";
-import { WindowContext } from "../Contexts/WindowContext";
+import { updateOrdering, getFirebaseDocs, setFirebaseDocs, deleteFirebaseDocs, FormattedDoc, DocInfo } from "../utils";
+import { WindowContext, WindowContextProps } from "../Contexts/WindowContext";
 import { UserContext, UserContextProps } from "../Contexts/UserContext";
 
 export type EditablePageProps = {
   formName: string;
   resourceName: string;
   fields: Field[];
-  renderInfoSection: (data: any, renderEditButtons: (item: any) => ReactNode) => ReactNode;
+  renderInfoSection: (data: FormattedDoc[], renderEditButtons: (item: FormattedDoc) => ReactNode) => ReactNode;
   localOnly?: boolean;
 }
 
@@ -17,13 +17,13 @@ const EditablePage = (props: EditablePageProps) => {
   const resourceName: string = props.resourceName;
   const formName: string = props.formName;
   const fields: Field[] = props.fields;
-  const { clientHeight, clientWidth } = useContext<{clientHeight: number, clientWidth: number}>(WindowContext);
+  const { clientHeight, clientWidth } = useContext<WindowContextProps>(WindowContext);
   const { loggedIn } = useContext<UserContextProps>(UserContext);
   const [editing, setEditing] = useState<boolean>(false);
-  const [editingItem, setEditingItem] = useState(null);
+  const [editingItem, setEditingItem] = useState<FormattedDoc>(null);
   const [isLoading, setIsLoading] = useState<boolean>(true);
   const [isPending, setIsPending] = useState<boolean>(false);
-  const [data, setData] = useState<any>([]);
+  const [data, setData] = useState<FormattedDoc[]>([]);
 
   let widthToSet: string = clientWidth <= 850 ? "95%" : "700px";
 
@@ -34,7 +34,7 @@ const EditablePage = (props: EditablePageProps) => {
     }
 
     getFirebaseDocs(resourceName)
-    .then((foundDocs: React.SetStateAction<any[]>) => {
+    .then((foundDocs: FormattedDoc[]) => {
       setData(foundDocs);
       setIsLoading(false);
     })
@@ -46,8 +46,8 @@ const EditablePage = (props: EditablePageProps) => {
   const handleSavePage = () => {
     setIsPending(true);
 
-    let toDelete: any[] = [];
-    data.forEach((item: any) => {
+    let toDelete: DocInfo[] = [];
+    data.forEach((item: FormattedDoc) => {
       if (item.deleted) {
         toDelete.push(item.doc);
       }
@@ -67,7 +67,7 @@ const EditablePage = (props: EditablePageProps) => {
   }
 
   const updateAndSaveData = (localOnly: boolean) => {
-    let updatedData = [...data];
+    let updatedData: FormattedDoc[] = [...data];
     for (let i = 0; i < updatedData.length; i++) {
       if (updatedData[i].deleted) {
         updatedData.splice(i, 1);
@@ -75,7 +75,7 @@ const EditablePage = (props: EditablePageProps) => {
       }
     }
 
-    let orderedData = updateOrdering(updatedData);
+    let orderedData: FormattedDoc[] = updateOrdering(updatedData);
     setData(orderedData);
 
     if (localOnly) {
@@ -84,8 +84,8 @@ const EditablePage = (props: EditablePageProps) => {
       return;
     }
 
-    let toUpdate: any[] = [];
-    orderedData.forEach((item) => {
+    let toUpdate: DocInfo[] = [];
+    orderedData.forEach((item: FormattedDoc) => {
       if (item.edited) {
         toUpdate.push(item.doc);
       }
@@ -101,49 +101,49 @@ const EditablePage = (props: EditablePageProps) => {
     });
   }
   
-  const handleSubmitForm = (newData: any, isNew: boolean) => {
+  const handleSubmitForm = (newData: DocInfo, isNew: boolean) => {
     if (isNew) {
-      setData((oldData: any) => [...oldData, {doc: newData, edited: true, deleted: false}]);
+      setData((oldData: FormattedDoc[]) => [...oldData, {doc: newData, edited: true, deleted: false} as FormattedDoc]);
     } else {
-      let updatedData = [...data];
-      updatedData.find((item) => item.doc.id === newData.id).doc = newData;
-      updatedData.find((item) => item.doc.id === newData.id).edited = true;
+      let updatedData: FormattedDoc[] = [...data];
+      updatedData.find((item: FormattedDoc) => item.doc.id === newData.id).doc = newData;
+      updatedData.find((item: FormattedDoc) => item.doc.id === newData.id).edited = true;
       setData(updatedData);
       setEditingItem(null);
     }
   }
 
-  const handleDelete = (deletedItem: any) => {
-    let updatedData = [...data];
-    updatedData.find((item) => item.doc.id === deletedItem.id).deleted = true;
-    updatedData.find((item) => item.doc.id === deletedItem.id).doc.order = -1;
+  const handleDelete = (deletedItem: DocInfo) => {
+    let updatedData: FormattedDoc[] = [...data];
+    updatedData.find((item: FormattedDoc) => item.doc.id === deletedItem.id).deleted = true;
+    updatedData.find((item: FormattedDoc) => item.doc.id === deletedItem.id).doc.order = -1;
     updatedData = updateOrdering(updatedData);
     setData(updatedData);
   }
 
-  const handleMoveUp = (targetItem: any) => {
+  const handleMoveUp = (targetItem: DocInfo) => {
     if (targetItem.order > 0) {
-      const previousItemId = data[targetItem.order-1].doc.id;
+      const previousItemId: string = data[targetItem.order-1].doc.id;
 
       let updateddata = [...data];
-      updateddata.find((item) => item.doc.id === targetItem.id).doc.order--;
-      updateddata.find((item) => item.doc.id === targetItem.id).edited = true;
-      updateddata.find((item) => item.doc.id === previousItemId).doc.order++;
-      updateddata.find((item) => item.doc.id === previousItemId).edited = true;
+      updateddata.find((item: FormattedDoc) => item.doc.id === targetItem.id).doc.order--;
+      updateddata.find((item: FormattedDoc) => item.doc.id === targetItem.id).edited = true;
+      updateddata.find((item: FormattedDoc) => item.doc.id === previousItemId).doc.order++;
+      updateddata.find((item: FormattedDoc) => item.doc.id === previousItemId).edited = true;
       updateddata = updateOrdering(updateddata);
       setData(updateddata);
     }
   }
 
-  const handleMoveDown = (targetItem: any) => {
+  const handleMoveDown = (targetItem: DocInfo) => {
     if (targetItem.order < data.length-1) {
-      const nextItemId = data[targetItem.order+1].doc.id;
+      const nextItemId: string = data[targetItem.order+1].doc.id;
 
       let updatedData = [...data];
-      updatedData.find((item) => item.doc.id === targetItem.id).doc.order++;
-      updatedData.find((item) => item.doc.id === targetItem.id).edited = true;
-      updatedData.find((item) => item.doc.id === nextItemId).doc.order--;
-      updatedData.find((item) => item.doc.id === nextItemId).edited = true;
+      updatedData.find((item: FormattedDoc) => item.doc.id === targetItem.id).doc.order++;
+      updatedData.find((item: FormattedDoc) => item.doc.id === targetItem.id).edited = true;
+      updatedData.find((item: FormattedDoc) => item.doc.id === nextItemId).doc.order--;
+      updatedData.find((item: FormattedDoc) => item.doc.id === nextItemId).edited = true;
       updatedData = updateOrdering(updatedData);
       setData(updatedData);
     }
@@ -157,17 +157,17 @@ const EditablePage = (props: EditablePageProps) => {
     }
   }
 
-  const handleEditItem = (item: any) => {
+  const handleEditItem = (item: FormattedDoc) => {
     setEditingItem(item);
   }
 
-  const renderEditButtons = (item: any) => {
+  const renderEditButtons = (item: FormattedDoc) => {
     if (editing) {
       return <span className="edit-buttons">
-      <button onClick={ () => {handleEditItem(item)} }>~</button>
-      <button onClick={ () => {handleMoveUp(item.doc)} }>^</button>
-      <button onClick={ () => {handleMoveDown(item.doc)} }>v</button>
-      <button onClick={ () => {handleDelete(item.doc)} }>X</button>
+      <button type="button" onClick={ () => {handleEditItem(item)} }>~</button>
+      <button type="button" onClick={ () => {handleMoveUp(item.doc)} }>^</button>
+      <button type="button" onClick={ () => {handleMoveDown(item.doc)} }>v</button>
+      <button type="button" onClick={ () => {handleDelete(item.doc)} }>X</button>
     </span>
     }
   }
@@ -179,7 +179,8 @@ const EditablePage = (props: EditablePageProps) => {
       {editing && <div className="add-section">
         <Form formName={ formName } submitHandler={ handleSubmitForm } fields={ fields } itemsLength= { data.length } editingItem={ editingItem }/>
       </div>}
-      {(loggedIn || props.localOnly) && <button className="button-primary save-page-button" onClick={ handleEditButtonClicked }>{ editing? (isPending? "Saving page..." : "Save Page") : "Edit Page"}</button>}
+      {(loggedIn || props.localOnly) && <button
+        type="button" className="button-primary save-page-button" onClick={ handleEditButtonClicked }>{ editing? (isPending? "Saving page..." : "Save Page") : "Edit Page"}</button>}
     </div>
   );
 }

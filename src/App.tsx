@@ -12,14 +12,14 @@ import NotFound from './Pages/NotFound';
 import Navbar from './Components/NavBar';
 import DemoPage from './Pages/DemoPage';
 import LoginPage from './Pages/LoginPage';
-import { WindowContext, WindowContextProvider } from './Contexts/WindowContext';
+import { WindowContext, WindowContextProps, WindowContextProvider } from './Contexts/WindowContext';
 import { UserContextProvider } from './Contexts/UserContext';
 
-export interface IAppProps {}
+export interface AppProps {}
 
-const App: React.FunctionComponent<IAppProps> = (props) => {
-  const navbarTitle = "DAN TURNER";
-  const navbarItems = [
+const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
+  const navbarTitle: string = "DAN TURNER";
+  const navbarItems: {name: string, link: string}[] = [
     { name: "Home", link: links.Home },
     { name: "Skills", link: links.Skills },
     { name: "Career", link: links.WorkHistory },
@@ -29,8 +29,8 @@ const App: React.FunctionComponent<IAppProps> = (props) => {
     { name: "Demo Page", link: links.DemoPage }
   ];
 
-  const { clientHeight, clientWidth } = useContext(WindowContext);
-  let widthToSet = clientWidth < 1100 ? "90%" : "1100px";
+  const { clientHeight, clientWidth } = useContext<WindowContextProps>(WindowContext);
+  let widthToSet: string = clientWidth < 1100 ? "90%" : "1100px";
 
   return (
     <WindowContextProvider>

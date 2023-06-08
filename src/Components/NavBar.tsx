@@ -1,21 +1,21 @@
 import React, { useContext } from "react";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, NavigateFunction, useNavigate } from "react-router-dom";
 import { Links } from "../utils";
-import { getAuth, signOut } from "firebase/auth";
-import { WindowContext } from "../Contexts/WindowContext";
-import { UserContext } from "../Contexts/UserContext";
+import { Auth, getAuth, signOut } from "firebase/auth";
+import { WindowContext, WindowContextProps } from "../Contexts/WindowContext";
+import { UserContext, UserContextProps } from "../Contexts/UserContext";
 
 export type NavbarProps = {
   title: string;
-  items: any;
+  items: {name: string, link: string}[];
 }
 
 const Navbar = (props: NavbarProps) => {
-  const { clientHeight, clientWidth } = useContext(WindowContext);
-  const { loggedIn } = useContext(UserContext);
-  const auth = getAuth();
-  const isMobile = clientHeight > clientWidth;
-  const navigator = useNavigate();
+  const { clientHeight, clientWidth } = useContext<WindowContextProps>(WindowContext);
+  const { loggedIn } = useContext<UserContextProps>(UserContext);
+  const auth: Auth = getAuth();
+  const isMobile: boolean = clientHeight > clientWidth;
+  const navigator: NavigateFunction = useNavigate();
 
   const cleanupBeforeNav = () => {
     resetScroll();
@@ -25,13 +25,12 @@ const Navbar = (props: NavbarProps) => {
     window.scrollTo(0,0);
   }
 
-  const handleLogin = (e: any) => {
-    e.preventDefault();
+  const handleLogin = () => {
     cleanupBeforeNav();
     navigator(Links.Login);
   }
 
-  const handleLogout = (e: any) => {
+  const handleLogout = () => {
     signOut(auth)
     .catch((err) => {
       console.log(err);
@@ -39,7 +38,7 @@ const Navbar = (props: NavbarProps) => {
   }
 
   const renderLoginPart = () => {
-    return <button className="button-primary" onClick={ loggedIn? handleLogout : handleLogin }>
+    return <button type="button" className="button-primary" onClick={ loggedIn? handleLogout : handleLogin }>
       { loggedIn? "Logout" : "Login" }</button>;
   }
 
@@ -48,7 +47,7 @@ const Navbar = (props: NavbarProps) => {
       <h1>{ props.title }</h1>
       <span className="links">
         <span>
-          {props.items.map((item: any) => (
+          {props.items.map((item: {name: string, link: string}) => (
             <span className="item" key={ item.name }>
               <Link onClick={cleanupBeforeNav} to={ item.link }>{ item.name }</Link>
             </span>
@@ -67,14 +66,14 @@ const Navbar = (props: NavbarProps) => {
     return (
       <div className="split-links">
         <div>
-          {subItems1.map((item: any) => (
+          {subItems1.map((item: {name: string, link: string}) => (
             <span className="item" key={ item.name }>
               <Link onClick={cleanupBeforeNav} to={ item.link }>{ item.name }</Link>
             </span>
           ))}
         </div>
         <div>
-          {subItems2.map((item: any) => (
+          {subItems2.map((item: {name: string, link: string}) => (
             <span className="item" key={ item.name }>
               <Link onClick={cleanupBeforeNav} to={ item.link }>{ item.name }</Link>
             </span>

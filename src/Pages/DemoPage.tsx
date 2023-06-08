@@ -2,6 +2,14 @@ import React, { ReactNode } from "react";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
 import EditablePage from "../Components/EditablePage";
 import { Field } from "../Components/GenericForm";
+import { FormattedDoc } from "../utils";
+
+export type DemoPageDocInfo = {
+  id: string,
+  name: string,
+  body: string,
+  order: number
+}
 
 const DemoPage = () => {
   const resourceName: string = "demo";
@@ -13,10 +21,10 @@ const DemoPage = () => {
     {id: 1, name: 'body', title: 'Body', type: 'TextArea', data: ''}
   ]
 
-  const renderInfoSection = (data: any, renderEditButtons: (item: any) => ReactNode) => {
+  const renderInfoSection = (data: FormattedDoc[], renderEditButtons: (item: FormattedDoc) => ReactNode) => {
     if (data) {
       return <div className="list-section">
-        {data.map((item: any) => (
+        {data.map((item: {doc: DemoPageDocInfo, edited: boolean, deleted: boolean}) => (
           !item.deleted && <div className="list-item" key={ item.doc.id }>
             <h3>{ item.doc.name }</h3>
             <ReactMarkdown>{ item.doc.body }</ReactMarkdown>
