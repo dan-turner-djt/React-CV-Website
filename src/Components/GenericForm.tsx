@@ -99,7 +99,7 @@ const Form = (props: FormProps) => {
           </div>
         ))}
         <div className="form-button">
-          <button type="button" className="button-primary">{editing? 'Save' : 'Add'} { formName }</button>
+          <button type="submit" className="button-primary">{editing? 'Save' : 'Add'} { formName }</button>
         </div>
       </fieldset>
     </form>

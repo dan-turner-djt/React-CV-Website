@@ -106,8 +106,9 @@ const EditablePage = (props: EditablePageProps) => {
       setData((oldData: FormattedDoc[]) => [...oldData, {doc: newData, edited: true, deleted: false} as FormattedDoc]);
     } else {
       let updatedData: FormattedDoc[] = [...data];
-      updatedData.find((item: FormattedDoc) => item.doc.id === newData.id).doc = newData;
-      updatedData.find((item: FormattedDoc) => item.doc.id === newData.id).edited = true;
+      const index: number = updatedData.indexOf(updatedData.find((item: FormattedDoc) => item.doc.id === newData.id));
+      updatedData[index].doc = newData;
+      updatedData[index].edited = true;
       setData(updatedData);
       setEditingItem(null);
     }
@@ -115,8 +116,9 @@ const EditablePage = (props: EditablePageProps) => {
 
   const handleDelete = (deletedItem: DocInfo) => {
     let updatedData: FormattedDoc[] = [...data];
-    updatedData.find((item: FormattedDoc) => item.doc.id === deletedItem.id).deleted = true;
-    updatedData.find((item: FormattedDoc) => item.doc.id === deletedItem.id).doc.order = -1;
+    const index: number = updatedData.indexOf(updatedData.find((item: FormattedDoc) => item.doc.id === deletedItem.id));
+    updatedData[index].deleted = true;
+    updatedData[index].doc.order = -1;
     updatedData = updateOrdering(updatedData);
     setData(updatedData);
   }
@@ -125,13 +127,15 @@ const EditablePage = (props: EditablePageProps) => {
     if (targetItem.order > 0) {
       const previousItemId: string = data[targetItem.order-1].doc.id;
 
-      let updateddata = [...data];
-      updateddata.find((item: FormattedDoc) => item.doc.id === targetItem.id).doc.order--;
-      updateddata.find((item: FormattedDoc) => item.doc.id === targetItem.id).edited = true;
-      updateddata.find((item: FormattedDoc) => item.doc.id === previousItemId).doc.order++;
-      updateddata.find((item: FormattedDoc) => item.doc.id === previousItemId).edited = true;
-      updateddata = updateOrdering(updateddata);
-      setData(updateddata);
+      let updatedData: FormattedDoc[] = [...data];
+      let index: number = updatedData.indexOf(updatedData.find((item: FormattedDoc) => item.doc.id === targetItem.id));
+      updatedData[index].doc.order--;
+      updatedData[index].edited = true;
+      index = updatedData.indexOf(updatedData.find((item: FormattedDoc) => item.doc.id === previousItemId));
+      updatedData[index].doc.order++;
+      updatedData[index].edited = true;
+      updatedData = updateOrdering(updatedData);
+      setData(updatedData);
     }
   }
 
@@ -139,11 +143,13 @@ const EditablePage = (props: EditablePageProps) => {
     if (targetItem.order < data.length-1) {
       const nextItemId: string = data[targetItem.order+1].doc.id;
 
-      let updatedData = [...data];
-      updatedData.find((item: FormattedDoc) => item.doc.id === targetItem.id).doc.order++;
-      updatedData.find((item: FormattedDoc) => item.doc.id === targetItem.id).edited = true;
-      updatedData.find((item: FormattedDoc) => item.doc.id === nextItemId).doc.order--;
-      updatedData.find((item: FormattedDoc) => item.doc.id === nextItemId).edited = true;
+      let updatedData: FormattedDoc[] = [...data];
+      let index: number = updatedData.indexOf(updatedData.find((item: FormattedDoc) => item.doc.id === targetItem.id));
+      updatedData[index].doc.order++;
+      updatedData[index].edited = true;
+      index = updatedData.indexOf(updatedData.find((item: FormattedDoc) => item.doc.id === nextItemId));
+      updatedData[index].doc.order--;
+      updatedData[index].edited = true;
       updatedData = updateOrdering(updatedData);
       setData(updatedData);
     }
