@@ -1,11 +1,11 @@
 import { getAuth } from 'firebase/auth';
 import { getFirestore, collection, getDocs, setDoc, deleteDoc, doc } from 'firebase/firestore';
-import { SkillsDocInfo } from './Pages/Skills';
-import { WorkHistoryDocInfo } from './Pages/WorkHistory';
-import { EducationDocInfo } from './Pages/Education';
-import { ProjectsDocInfo } from './Pages/Projects';
-import { JapaneseDocInfo } from './Pages/Japanese';
-import { DemoPageDocInfo } from './Pages/DemoPage';
+import { SkillsDocInfo } from './Pages/EditablePages/Skills/Skills';
+import { WorkHistoryDocInfo } from './Pages/EditablePages/WorkHistory/WorkHistory';
+import { EducationDocInfo } from './Pages/EditablePages/Education/Education';
+import { ProjectsDocInfo } from './Pages/EditablePages/Projects/Projects';
+import { JapaneseDocInfo } from './Pages/EditablePages/Japanese/Japanese';
+import { DemoPageDocInfo } from './Pages/EditablePages/DemoPage/DemoPage';
 
 export type DocInfo = SkillsDocInfo | WorkHistoryDocInfo | EducationDocInfo | ProjectsDocInfo | JapaneseDocInfo | DemoPageDocInfo;
 

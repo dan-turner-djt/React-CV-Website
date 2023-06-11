@@ -1,17 +1,16 @@
-import './App.css';
 import React, { useContext } from 'react';
 import { BrowserRouter, Route, Routes } from 'react-router-dom';
 import { Links as links } from './utils';
-import Home from './Pages/Home';
-import Skills from './Pages/Skills';
-import WorkHistory from './Pages/WorkHistory';
-import Education from './Pages/Education';
-import Projects from './Pages/Projects';
-import Japanese from './Pages/Japanese';
-import NotFound from './Pages/NotFound';
-import Navbar from './Components/NavBar';
-import DemoPage from './Pages/DemoPage';
-import LoginPage from './Pages/LoginPage';
+import Home from './Pages/Home/Home';
+import Skills from './Pages/EditablePages/Skills/Skills';
+import WorkHistory from './Pages/EditablePages/WorkHistory/WorkHistory';
+import Education from './Pages/EditablePages/Education/Education';
+import Projects from './Pages/EditablePages/Projects/Projects';
+import Japanese from './Pages/EditablePages/Japanese/Japanese';
+import NotFound from './Pages/NotFound/NotFound';
+import Navbar from './Components/NavBar/NavBar';
+import DemoPage from './Pages/EditablePages/DemoPage/DemoPage';
+import LoginPage from './Pages/LoginPage/LoginPage';
 import { WindowContext, WindowContextProps, WindowContextProvider } from './Contexts/WindowContext';
 import { UserContextProvider } from './Contexts/UserContext';
 

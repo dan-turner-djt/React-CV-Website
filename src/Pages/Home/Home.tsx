@@ -1,5 +1,6 @@
+import './Home.scss'
 import React, { useContext } from "react";
-import { WindowContext, WindowContextProps } from "../Contexts/WindowContext";
+import { WindowContext, WindowContextProps } from "../../Contexts/WindowContext";
 
 const Home = () => {
   const { clientHeight, clientWidth } = useContext<WindowContextProps>(WindowContext);

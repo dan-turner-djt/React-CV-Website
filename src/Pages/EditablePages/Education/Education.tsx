@@ -1,8 +1,9 @@
+import './Education.scss'
 import React, { ReactNode } from "react";
 import { ReactMarkdown } from "react-markdown/lib/react-markdown";
-import EditablePage from "../Components/EditablePage";
-import { Field } from "../Components/GenericForm";
-import { FormattedDoc } from "../utils";
+import EditablePage from "../../../Components/EditablePage/EditablePage";
+import { Field } from "../../../Components/GenericForm/GenericForm";
+import { FormattedDoc } from "../../../utils";
 
 export type EducationDocInfo = {
   id: string,

@@ -1,7 +1,8 @@
+import './Skills.scss'
 import React, { ReactNode } from "react";
-import EditablePage from "../Components/EditablePage";
-import { Field } from "../Components/GenericForm";
-import { FormattedDoc } from "../utils";
+import EditablePage from "../../../Components/EditablePage/EditablePage";
+import { Field } from "../../../Components/GenericForm/GenericForm";
+import { FormattedDoc } from "../../../utils";
 
 export type SkillsDocInfo = {
   id: string,

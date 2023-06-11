@@ -1,9 +1,10 @@
+import './EditablePage.scss'
 import React, { ReactNode, useContext } from "react";
 import { useEffect, useState } from "react";
-import Form, { Field } from "./GenericForm";
-import { updateOrdering, getFirebaseDocs, setFirebaseDocs, deleteFirebaseDocs, FormattedDoc, DocInfo } from "../utils";
-import { WindowContext, WindowContextProps } from "../Contexts/WindowContext";
-import { UserContext, UserContextProps } from "../Contexts/UserContext";
+import Form, { Field } from "../GenericForm/GenericForm";
+import { updateOrdering, getFirebaseDocs, setFirebaseDocs, deleteFirebaseDocs, FormattedDoc, DocInfo } from "../../utils";
+import { WindowContext, WindowContextProps } from "../../Contexts/WindowContext";
+import { UserContext, UserContextProps } from "../../Contexts/UserContext";
 
 export type EditablePageProps = {
   formName: string;

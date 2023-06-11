@@ -1,6 +1,7 @@
+import './GenericForm.scss'
 import React, { FormEvent } from "react";
 import { useEffect, useRef, useState } from "react";
-import { DocInfo, FormattedDoc } from "../utils";
+import { DocInfo, FormattedDoc } from "../../utils";
 
 export type Field = {
   id: number,
@@ -72,12 +73,14 @@ const Form = (props: FormProps) => {
       case 'TextArea':
         return <textarea
         ref={(ref) => {inputRefs.current[field.id] = ref}}
+        id={ String(field.id) }
         name={ field.name }
         { ...field.required }>
         </textarea>;
       case 'Input':
         return <input
         ref={(ref) => {inputRefs.current[field.id] = ref}}
+        id={ String(field.id) }
         name={ field.name }
         type="text"
         { ...field.required }>
@@ -94,7 +97,7 @@ const Form = (props: FormProps) => {
         <legend>{editing? 'Edit' : 'New'} { formName }</legend>
         {props.fields.map((field: Field) => (
           <div key={ field.id }>
-            <label>{ field.title }</label>
+            <label htmlFor={ String(field.id) }>{ field.title }</label>
             { renderField(field) }
           </div>
         ))}

@@ -1,0 +1,46 @@
+@import url('https://fonts.googleapis.com/css2?family=Quicksand:wght@300;400;500;600;700&display=swap');
+
+.App {
+  text-align: center;
+}
+
+* {
+  margin: 0;
+  font-family: "Quicksand";
+  color: #333;
+}
+
+body {
+  background-color: #c4daff;
+}
+
+button {
+  cursor: pointer;
+}
+
+.main-content {
+  margin: 40px auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+  min-height: 700px;
+}
+
+.content {
+  margin: 20px auto;
+  padding: 20px;
+  background-color: white;
+  border-radius: 10px;
+}
+
+.button-primary {
+  background: #330eda;
+  color: #fff;
+  border: 0;
+  padding: 8px;
+  border-radius: 8px;
+}
+
+
+
+

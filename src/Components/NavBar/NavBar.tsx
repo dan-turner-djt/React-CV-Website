@@ -1,9 +1,10 @@
+import './NavBar.scss';
 import React, { useContext } from "react";
 import { Link, NavigateFunction, useNavigate } from "react-router-dom";
-import { Links } from "../utils";
+import { Links } from "../../utils";
 import { Auth, getAuth, signOut } from "firebase/auth";
-import { WindowContext, WindowContextProps } from "../Contexts/WindowContext";
-import { UserContext, UserContextProps } from "../Contexts/UserContext";
+import { WindowContext, WindowContextProps } from "../../Contexts/WindowContext";
+import { UserContext, UserContextProps } from "../../Contexts/UserContext";
 
 export type NavbarProps = {
   title: string;

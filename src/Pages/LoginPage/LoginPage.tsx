@@ -1,10 +1,11 @@
+import './LoginPage.scss'
 import React, { FormEvent, useContext } from "react";
 import { useState } from "react";
 import { getAuth, signInWithEmailAndPassword, signOut } from 'firebase/auth'
-import { Links } from "../utils";
+import { Links } from "../../utils";
 import { useNavigate } from "react-router-dom";
-import { WindowContext } from "../Contexts/WindowContext";
-import { UserContext } from "../Contexts/UserContext";
+import { WindowContext } from "../../Contexts/WindowContext";
+import { UserContext } from "../../Contexts/UserContext";
 
 const LoginPage = () => {
   const { clientHeight, clientWidth } = useContext(WindowContext);
@@ -48,17 +49,19 @@ const LoginPage = () => {
       {!loggedIn && <form className="form" style={{width: widthToSet}} onSubmit={ handleSubmit }>
         <fieldset>
           <legend>Login</legend>
-          <label>Username</label>
+          <label htmlFor="username">Username</label>
           <input
             name='username'
+            id='username'
             type='text'
             required
             value={username}
             onChange={(e) => setUsername(e.target.value)}>
           </input>
-          <label>Password</label>
+          <label htmlFor="password">Password</label>
           <input
             name='password'
+            id='password'
             type='password'
             required
             value={password}
