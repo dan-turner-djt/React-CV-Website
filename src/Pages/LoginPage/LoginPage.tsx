@@ -69,7 +69,7 @@ const LoginPage = () => {
           </input>
           <p className="error-message">{ error }</p>
           <div className="form-button">
-            <button className="button-primary" type="button">Login</button>
+            <button className="button-primary" type="submit">Login</button>
           </div>
         </fieldset>
       </form>}

@@ -100,7 +100,7 @@ const Navbar = (props: NavbarProps) => {
   
 
   return ( 
-    <nav className="navbar">
+    <nav data-cy="navbar" className="navbar">
       {!isMobile && renderFullMode()}
       {isMobile && renderMobileMode()}
     </nav>   
