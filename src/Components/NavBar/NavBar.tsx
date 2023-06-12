@@ -39,7 +39,7 @@ const Navbar = (props: NavbarProps) => {
   }
 
   const renderLoginPart = () => {
-    return <button type="button" className="button-primary" onClick={ loggedIn? handleLogout : handleLogin }>
+    return <button data-cy="login-button" type="button" className="button-primary" onClick={ loggedIn? handleLogout : handleLogin }>
       { loggedIn? "Logout" : "Login" }</button>;
   }
 

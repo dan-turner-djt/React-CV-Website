@@ -51,6 +51,7 @@ const LoginPage = () => {
           <legend>Login</legend>
           <label htmlFor="username">Username</label>
           <input
+            data-cy='username-input'
             name='username'
             id='username'
             type='text'
@@ -60,6 +61,7 @@ const LoginPage = () => {
           </input>
           <label htmlFor="password">Password</label>
           <input
+            data-cy='password-input'
             name='password'
             id='password'
             type='password'
@@ -67,9 +69,9 @@ const LoginPage = () => {
             value={password}
             onChange={(e) => setPassword(e.target.value)}>
           </input>
-          <p className="error-message">{ error }</p>
+          <p data-cy="login-error-message" className="error-message">{ error }</p>
           <div className="form-button">
-            <button className="button-primary" type="submit">Login</button>
+            <button data-cy="login-submit" className="button-primary" type="submit">Login</button>
           </div>
         </fieldset>
       </form>}
