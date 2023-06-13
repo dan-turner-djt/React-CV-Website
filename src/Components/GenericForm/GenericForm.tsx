@@ -73,6 +73,7 @@ const Form = (props: FormProps) => {
       case 'TextArea':
         return <textarea
         ref={(ref) => {inputRefs.current[field.id] = ref}}
+        data-cy={String(field.name)+"-text-area"}
         id={ String(field.id) }
         name={ field.name }
         { ...field.required }>
@@ -80,6 +81,7 @@ const Form = (props: FormProps) => {
       case 'Input':
         return <input
         ref={(ref) => {inputRefs.current[field.id] = ref}}
+        data-cy={String(field.name)+"-input"}
         id={ String(field.id) }
         name={ field.name }
         type="text"
@@ -94,7 +96,7 @@ const Form = (props: FormProps) => {
   return (
     <form className="form" onSubmit={ handleSubmit }>
       <fieldset>
-        <legend>{editing? 'Edit' : 'New'} { formName }</legend>
+        <legend data-cy="form-legend">{editing? 'Edit' : 'New'} { formName }</legend>
         {props.fields.map((field: Field) => (
           <div key={ field.id }>
             <label htmlFor={ String(field.id) }>{ field.title }</label>
@@ -102,7 +104,7 @@ const Form = (props: FormProps) => {
           </div>
         ))}
         <div className="form-button">
-          <button type="submit" className="button-primary">{editing? 'Save' : 'Add'} { formName }</button>
+          <button data-cy="submit-edit-form-button" type="submit" className="button-primary">{editing? 'Save' : 'Add'} { formName }</button>
         </div>
       </fieldset>
     </form>

@@ -1,4 +1,4 @@
-describe('login', () => {
+describe('Login', () => {
   it('clicks the login button and navigates to the login page', () => {
     cy.visit('/');
     const loginButton = cy.get('[data-cy=login-button');
@@ -6,7 +6,7 @@ describe('login', () => {
     loginButton.click();
     cy.url().should('include', '/login');
   })
-  describe('attempt login', () => {
+  describe('Attempt login', () => {
     beforeEach(() => {
       cy.visit('/login');
       cy.get('[data-cy=username-input]').clear();
@@ -31,7 +31,7 @@ describe('login', () => {
       cy.url().should('not.contain', '/login');
     })
   })
-  describe('logout', () => {
+  describe('Logout', () => {
     it('will logout', () => {
       const logoutButton = cy.get('[data-cy=login-button');
       logoutButton.contains('Logout');

@@ -7,7 +7,7 @@ import { FormattedDoc } from "../../../utils";
 
 export type WorkHistoryDocInfo = {
   id: string,
-  jobTitle: string,
+  name: string,
   company: string,
   startDate: string,
   endDate: string,
@@ -22,7 +22,7 @@ const WorkHistory = () => {
   const formName: string = "Career Item";
 
   const fields: Field[] = [
-    {id: 0, name: 'jobTitle', title: 'Job Title', type: 'Input', data: '', required: {required: true}},
+    {id: 0, name: 'name', title: 'Job Title', type: 'Input', data: '', required: {required: true}},
     {id: 1, name: 'company', title: 'Company', type: 'Input', data: '', required: {required: true}},
     {id: 2, name: 'startDate', title: 'Start Date', type: 'Input', data: '', required: {required: true}},
     {id: 3, name: 'endDate', title: 'End Date', type: 'Input', data: '', required: {required: true}},
@@ -36,7 +36,7 @@ const WorkHistory = () => {
         {data.map((item: {doc: WorkHistoryDocInfo, edited: boolean, deleted: boolean}) => (
           !item.deleted && <div className="list-item" key={ item.doc.id }>
             <h4>{ item.doc.startDate } - { item.doc.endDate }:</h4>
-            <h3>{ item.doc.jobTitle } - { item.doc.company}, { item.doc.location }</h3>
+            <h3>{ item.doc.name } - { item.doc.company}, { item.doc.location }</h3>
             <ReactMarkdown>{ item.doc.info }</ReactMarkdown>
             { renderEditButtons(item) }
           </div>

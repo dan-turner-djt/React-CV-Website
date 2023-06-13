@@ -171,10 +171,10 @@ const EditablePage = (props: EditablePageProps) => {
   const renderEditButtons = (item: FormattedDoc) => {
     if (editing) {
       return <span className="edit-buttons">
-      <button type="button" onClick={ () => {handleEditItem(item)} }>~</button>
-      <button type="button" onClick={ () => {handleMoveUp(item.doc)} }>^</button>
-      <button type="button" onClick={ () => {handleMoveDown(item.doc)} }>v</button>
-      <button type="button" onClick={ () => {handleDelete(item.doc)} }>X</button>
+      <button data-cy={item.doc.name+"-edit-button"} type="button" onClick={ () => {handleEditItem(item)} }>~</button>
+      <button data-cy={item.doc.name+"-move-up-button"} type="button" onClick={ () => {handleMoveUp(item.doc)} }>^</button>
+      <button data-cy={item.doc.name+"-move-down-button"} type="button" onClick={ () => {handleMoveDown(item.doc)} }>v</button>
+      <button data-cy={item.doc.name+"-delete-button"} type="button" onClick={ () => {handleDelete(item.doc)} }>X</button>
     </span>
     }
   }
@@ -186,7 +186,7 @@ const EditablePage = (props: EditablePageProps) => {
       {editing && <div className="add-section">
         <Form formName={ formName } submitHandler={ handleSubmitForm } fields={ fields } itemsLength= { data.length } editingItem={ editingItem }/>
       </div>}
-      {(loggedIn || props.localOnly) && <button
+      {(loggedIn || props.localOnly) && <button data-cy="edit-page-button"
         type="button" className="button-primary save-page-button" onClick={ handleEditButtonClicked }>{ editing? (isPending? "Saving page..." : "Save Page") : "Edit Page"}</button>}
     </div>
   );

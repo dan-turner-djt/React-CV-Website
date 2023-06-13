@@ -26,8 +26,8 @@ const DemoPage = () => {
     if (data) {
       return <div className="list-section">
         {data.map((item: {doc: DemoPageDocInfo, edited: boolean, deleted: boolean}) => (
-          !item.deleted && <div className="list-item" key={ item.doc.id }>
-            <h3>{ item.doc.name }</h3>
+          !item.deleted && <div data-cy="list-item" className="list-item" key={ item.doc.id }>
+            <h3 data-cy={item.doc.name}>{ item.doc.name }</h3>
             <ReactMarkdown>{ item.doc.body }</ReactMarkdown>
             { renderEditButtons(item) }
           </div>
