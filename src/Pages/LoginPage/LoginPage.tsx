@@ -6,6 +6,7 @@ import { Links } from "../../utils";
 import { useNavigate } from "react-router-dom";
 import { WindowContext } from "../../Contexts/WindowContext";
 import { UserContext } from "../../Contexts/UserContext";
+import { Button } from '@mui/material';
 
 const LoginPage = () => {
   const { clientHeight, clientWidth } = useContext(WindowContext);
@@ -71,11 +72,11 @@ const LoginPage = () => {
           </input>
           <p data-cy="login-error-message" className="error-message">{ error }</p>
           <div className="form-button">
-            <button data-cy="login-submit" className="button-primary" type="submit">Login</button>
+            <Button data-cy="login-submit" variant="contained" color="darkBlue" type="submit">Login</Button>
           </div>
         </fieldset>
       </form>}
-      {loggedIn && <button className="button-primary" onClick={ handleLogout }>Logout</button>}
+      {loggedIn && <Button variant="contained" color="darkBlue" onClick={ handleLogout }>Logout</Button>}
       
     </div>
   );

@@ -5,6 +5,9 @@ import Form, { Field } from "../GenericForm/GenericForm";
 import { updateOrdering, getFirebaseDocs, setFirebaseDocs, deleteFirebaseDocs, FormattedDoc, DocInfo } from "../../utils";
 import { WindowContext, WindowContextProps } from "../../Contexts/WindowContext";
 import { UserContext, UserContextProps } from "../../Contexts/UserContext";
+import Button from '@mui/material/Button';
+import { IconButton } from '@mui/material';
+import { Delete, Edit, KeyboardArrowDown, KeyboardArrowUp } from '@mui/icons-material';
 
 export type EditablePageProps = {
   formName: string;
@@ -170,12 +173,20 @@ const EditablePage = (props: EditablePageProps) => {
 
   const renderEditButtons = (item: FormattedDoc) => {
     if (editing) {
-      return <span className="edit-buttons">
-      <button data-cy={item.doc.name+"-edit-button"} type="button" onClick={ () => {handleEditItem(item)} }>~</button>
-      <button data-cy={item.doc.name+"-move-up-button"} type="button" onClick={ () => {handleMoveUp(item.doc)} }>^</button>
-      <button data-cy={item.doc.name+"-move-down-button"} type="button" onClick={ () => {handleMoveDown(item.doc)} }>v</button>
-      <button data-cy={item.doc.name+"-delete-button"} type="button" onClick={ () => {handleDelete(item.doc)} }>X</button>
-    </span>
+      return <div className="edit-buttons">
+        <IconButton data-cy={item.doc.name+"-edit-button"} type="button" size="small" onClick={ () => {handleEditItem(item)} }>
+          <Edit component={svgProps => {return (<svg {...svgProps}>{React.cloneElement(svgProps.children[0], {fill: '#330eda'})}</svg>);}}></Edit>
+        </IconButton>
+        <IconButton data-cy={item.doc.name+"-move-up-button"} type="button" size="small" onClick={ () => {handleMoveUp(item.doc)} }>
+          <KeyboardArrowUp component={svgProps => {return (<svg {...svgProps}>{React.cloneElement(svgProps.children[0], {fill: '#330eda'})}</svg>);}}></KeyboardArrowUp>
+        </IconButton>
+        <IconButton data-cy={item.doc.name+"-move-down-button"} type="button" size="small" onClick={ () => {handleMoveDown(item.doc)} }>
+          <KeyboardArrowDown component={svgProps => {return (<svg {...svgProps}>{React.cloneElement(svgProps.children[0], {fill: '#330eda'})}</svg>);}}></KeyboardArrowDown>
+        </IconButton>
+        <IconButton data-cy={item.doc.name+"-delete-button"} type="button" size="small" onClick={ () => {handleDelete(item.doc)} }>
+          <Delete component={svgProps => {return (<svg {...svgProps}>{React.cloneElement(svgProps.children[0], {fill: 'red'})}</svg>);}}></Delete>
+        </IconButton>
+      </div>
     }
   }
 
@@ -186,8 +197,8 @@ const EditablePage = (props: EditablePageProps) => {
       {editing && <div className="add-section">
         <Form formName={ formName } submitHandler={ handleSubmitForm } fields={ fields } itemsLength= { data.length } editingItem={ editingItem }/>
       </div>}
-      {(loggedIn || props.localOnly) && <button data-cy="edit-page-button"
-        type="button" className="button-primary save-page-button" onClick={ handleEditButtonClicked }>{ editing? (isPending? "Saving page..." : "Save Page") : "Edit Page"}</button>}
+      {(loggedIn || props.localOnly) && <Button data-cy="edit-page-button" variant="contained" color="darkBlue"
+        type="button" className="save-page-button" onClick={ handleEditButtonClicked }>{ editing? (isPending? "Saving page..." : "Save Page") : "Edit Page"}</Button>}
     </div>
   );
 }

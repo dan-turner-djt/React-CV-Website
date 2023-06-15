@@ -2,6 +2,7 @@ import './GenericForm.scss'
 import React, { FormEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 import { DocInfo, FormattedDoc } from "../../utils";
+import { Button, PaletteColorOptions, ThemeProvider, createTheme } from '@mui/material';
 
 export type Field = {
   id: number,
@@ -104,7 +105,7 @@ const Form = (props: FormProps) => {
           </div>
         ))}
         <div className="form-button">
-          <button data-cy="submit-edit-form-button" type="submit" className="button-primary">{editing? 'Save' : 'Add'} { formName }</button>
+          <Button data-cy="submit-edit-form-button" variant="contained" color="darkBlue" type="submit">{editing? 'Save' : 'Add'} { formName }</Button>
         </div>
       </fieldset>
     </form>

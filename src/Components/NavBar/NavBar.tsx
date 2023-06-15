@@ -5,6 +5,7 @@ import { Links } from "../../utils";
 import { Auth, getAuth, signOut } from "firebase/auth";
 import { WindowContext, WindowContextProps } from "../../Contexts/WindowContext";
 import { UserContext, UserContextProps } from "../../Contexts/UserContext";
+import { Button } from '@mui/material';
 
 export type NavbarProps = {
   title: string;
@@ -39,8 +40,8 @@ const Navbar = (props: NavbarProps) => {
   }
 
   const renderLoginPart = () => {
-    return <button data-cy="login-button" type="button" className="button-primary" onClick={ loggedIn? handleLogout : handleLogin }>
-      { loggedIn? "Logout" : "Login" }</button>;
+    return <Button data-cy="login-button" variant="contained" color="darkBlue" type="button" onClick={ loggedIn? handleLogout : handleLogin }>
+      { loggedIn? "Logout" : "Login" }</Button>;
   }
 
   const renderFullMode = () => {
