@@ -1,14 +1,9 @@
 .navbar {
-  width: 100%;
-  padding-top: 20px;
-  padding-bottom: 20px;
-  align-items: center;
-  margin: 0 auto;
-  background-color: #a6c4f3;
-  position: sticky;
-  top: 0;
+  padding-bottom: 56px;
   h1 {
-    font-size: 30px;
+    font-size: 32px;
+    margin-left: 3%;
+    margin-right: 16px;
   }
   a {
     margin-left: 16px;
@@ -19,26 +14,7 @@
       color: #4211f5;
     }
   }
-}
-
-.navbar-full {
-  display: flex;
-  align-items: center;
-
-  h1 {
-    margin-left: 5%;
-  }
-  .links {
-    margin-left: auto;
-  }
-  button {
-    margin-left: 20px;
-    margin-right: 20px;
-  }
-}
-
-.navbar-mobile {
-  button {
-    margin-right: 10px;
+  .login-button {
+    margin-right: 1%;
   }
 }

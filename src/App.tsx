@@ -19,7 +19,8 @@ export interface AppProps {}
 
 declare module '@mui/material/styles' {
   interface CustomPalette {
-    darkBlue: PaletteColorOptions
+    darkBlue: PaletteColorOptions,
+    appbarBlue: PaletteColorOptions
   }
   interface Palette extends CustomPalette {}
   interface PaletteOptions extends CustomPalette {}
@@ -30,13 +31,19 @@ declare module '@mui/material/Button' {
     darkBlue: true
   }
 }
+declare module '@mui/material/AppBar' {
+  interface AppBarPropsColorOverrides {
+    appbarBlue: true
+  }
+}
 
 const { palette } = createTheme();
 const { augmentColor } = palette;
 const createColor = (mainColor: any) => augmentColor({ color: { main: mainColor } });
 const theme = createTheme({
   palette: {
-    darkBlue: createColor('#330eda')
+    darkBlue: createColor('#330eda'),
+    appbarBlue: createColor('#7da9ff')
   },
 });
 
