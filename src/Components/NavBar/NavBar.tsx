@@ -96,13 +96,17 @@ const Navbar = (props: NavbarProps) => {
                 ))}
               </Menu>
             </Box>
-            <h1>{ props.title }</h1>
+            <Box sx={{ flexGrow: 1, display: { xs: 'flex' } }}>
+              <h1>{ props.title }</h1>
+            </Box>
             <Box sx={{ flexGrow: 1, display: { xs: 'none', lg: 'flex' } }}>
-              {props.items.map((item: {name: string, link: string}) => (
-                <span className="item" key={ item.name }>
-                  <Link onClick={cleanupBeforeNav} to={ item.link }>{ item.name }</Link>
-                </span>
-              ))}
+              <div className="appbar-links">
+                {props.items.map((item: {name: string, link: string}) => (
+                  <span className="item" key={ item.name }>
+                    <Link onClick={cleanupBeforeNav} to={ item.link }>{ item.name }</Link>
+                  </span>
+                ))}
+              </div>
             </Box>
             <Box className="login-button" sx={{ flexGrow: 0 }}>
               <Button data-cy="login-button" variant="contained" color="darkBlue" type="button" onClick={ loggedIn? handleLogout : handleLogin }>

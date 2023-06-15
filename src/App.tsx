@@ -43,7 +43,7 @@ const createColor = (mainColor: any) => augmentColor({ color: { main: mainColor 
 const theme = createTheme({
   palette: {
     darkBlue: createColor('#330eda'),
-    appbarBlue: createColor('#87b0ff')
+    appbarBlue: createColor('#8cb3ff')
   },
 });
 
