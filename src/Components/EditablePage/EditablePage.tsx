@@ -197,8 +197,10 @@ const EditablePage = (props: EditablePageProps) => {
       {editing && <div className="add-section">
         <Form formName={ formName } submitHandler={ handleSubmitForm } fields={ fields } itemsLength= { data.length } editingItem={ editingItem }/>
       </div>}
-      {(loggedIn || props.localOnly) && <Button data-cy="edit-page-button" variant="contained" color="darkBlue"
-        type="button" className="save-page-button" onClick={ handleEditButtonClicked }>{ editing? (isPending? "Saving page..." : "Save Page") : "Edit Page"}</Button>}
+      {(loggedIn || props.localOnly) && <div className="save-page-button">
+        <Button data-cy="edit-page-button" variant="contained" color="darkBlue"
+          type="button"  onClick={ handleEditButtonClicked }>{ editing? (isPending? "Saving page..." : "Save Page") : "Edit Page"}</Button>
+      </div>}
     </div>
   );
 }
