@@ -2,21 +2,18 @@
   padding-bottom: 56px;
   h1 {
     font-size: 32px;
-    margin-left: 7%;
-  }
-  .appbar-links {
-    margin-right: 120px;
   }
   a {
     margin-left: 10px;
     text-decoration: none;
-    padding: 6px;
+    padding: 9px;
     font-weight: 500;
     &:hover {
       color: #4211f5;
     }
   }
-  .login-button {
-    margin-right: 1%;
+
+  .toolbar {
+    justify-content: space-between;
   }
 }

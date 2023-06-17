@@ -61,8 +61,8 @@ const Navbar = (props: NavbarProps) => {
     <nav data-cy="navbar" className="navbar">
       <AppBar color="appbarBlue">
         <Container maxWidth={false}>
-          <Toolbar disableGutters>
-            <Box sx={{ flexGrow: 1, display: { xs: 'flex', lg: 'none' } }}>
+          <Toolbar className="toolbar" disableGutters>
+            <Box sx={{ display: { xs: 'flex', lg: 'none' }, width: '100px', justifyContent: 'left' }}>
               <IconButton
                 size="large"
                 aria-label="Menu"
@@ -96,10 +96,10 @@ const Navbar = (props: NavbarProps) => {
                 ))}
               </Menu>
             </Box>
-            <Box sx={{ flexGrow: 1, display: { xs: 'flex' } }}>
+            <Box sx={{ display: { xs: 'block', lg: 'flex' }, width: '230px', justifyContent: 'left' }}>
               <h1>{ props.title }</h1>
             </Box>
-            <Box sx={{ flexGrow: 1, display: { xs: 'none', lg: 'flex' } }}>
+            <Box sx={{ display: { xs: 'none', lg: 'block' } }}>
               <div className="appbar-links">
                 {props.items.map((item: {name: string, link: string}) => (
                   <span className="item" key={ item.name }>
@@ -108,7 +108,7 @@ const Navbar = (props: NavbarProps) => {
                 ))}
               </div>
             </Box>
-            <Box className="login-button" sx={{ flexGrow: 0 }}>
+            <Box sx={{ width: { xs: '100px', lg: '230px'}, display: 'flex', justifyContent: 'right' }}>
               <Button data-cy="login-button" variant="contained" color="darkBlue" type="button" onClick={ loggedIn? handleLogout : handleLogin }>
                 { loggedIn? "Logout" : "Login" }</Button>
             </Box>
