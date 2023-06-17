@@ -3,7 +3,7 @@ import React, { useContext } from "react";
 import { WindowContext, WindowContextProps } from "../../Contexts/WindowContext";
 
 const Home = () => {
-  const { clientHeight, clientWidth } = useContext<WindowContextProps>(WindowContext);
+  const { clientWidth } = useContext<WindowContextProps>(WindowContext);
   let widthToSet: string = clientWidth <= 850 ? "95%" : "700px";
 
   return (

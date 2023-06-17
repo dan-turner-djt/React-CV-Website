@@ -9,7 +9,7 @@ import { UserContext } from "../../Contexts/UserContext";
 import { Button } from '@mui/material';
 
 const LoginPage = () => {
-  const { clientHeight, clientWidth } = useContext(WindowContext);
+  const { clientWidth } = useContext(WindowContext);
   const { loggedIn } = useContext(UserContext);
   const navigator = useNavigate();
   const [username, setUsername] = useState('');
@@ -18,7 +18,7 @@ const LoginPage = () => {
 
   const auth = getAuth();
 
-  let widthToSet = clientWidth < 600 ? "100%" : "600px"; 
+  let widthToSet = clientWidth <= 850 ? "95%" : "700px"; 
 
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();

@@ -3,7 +3,6 @@ import React, { useContext } from "react";
 import { Link, NavigateFunction, useNavigate } from "react-router-dom";
 import { Links } from "../../utils";
 import { Auth, getAuth, signOut } from "firebase/auth";
-import { WindowContext, WindowContextProps } from "../../Contexts/WindowContext";
 import { UserContext, UserContextProps } from "../../Contexts/UserContext";
 import { AppBar, Box, Button, Container, IconButton, Menu, MenuItem, Toolbar, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
@@ -14,14 +13,11 @@ export type NavbarProps = {
 }
 
 const Navbar = (props: NavbarProps) => {
-  const { clientHeight, clientWidth } = useContext<WindowContextProps>(WindowContext);
   const { loggedIn } = useContext<UserContextProps>(UserContext);
   const auth: Auth = getAuth();
-  const isMobile: boolean = clientHeight > clientWidth;
   const navigator: NavigateFunction = useNavigate();
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
-  const [anchorElUser, setAnchorElUser] = React.useState<null | HTMLElement>(null);
 
   const handleOpenNavMenu = (event: React.MouseEvent<HTMLElement>) => {
     setAnchorElNav(event.currentTarget);

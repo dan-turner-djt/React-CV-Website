@@ -11,7 +11,7 @@ import NotFound from './Pages/NotFound/NotFound';
 import Navbar from './Components/NavBar/NavBar';
 import DemoPage from './Pages/EditablePages/DemoPage/DemoPage';
 import LoginPage from './Pages/LoginPage/LoginPage';
-import { WindowContext, WindowContextProps, WindowContextProvider } from './Contexts/WindowContext';
+import { WindowContext, WindowContextProps } from './Contexts/WindowContext';
 import { UserContextProvider } from './Contexts/UserContext';
 import { PaletteColorOptions, ThemeProvider, createTheme } from '@mui/material';
 
@@ -60,33 +60,32 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
   ];
 
   const { clientHeight, clientWidth } = useContext<WindowContextProps>(WindowContext);
-  let widthToSet: string = clientWidth < 1100 ? "90%" : "1100px";
+  let widthToSet: string = clientWidth < 1500 ? "88%" : "1300px";
+  let heightToSet: string = String(clientHeight - 176) + "px";
 
   return (
-    <WindowContextProvider>
-      <UserContextProvider>
-        <ThemeProvider theme={ theme }>
-          <BrowserRouter>
-            <div className="App">
-              <Navbar title={ navbarTitle } items={ navbarItems } />
-              <div className="main-content" style={{width: widthToSet}}>
-                <Routes>
-                  <Route path={ links.Home } element={ <Home/> }/>
-                  <Route path={ links.Skills } element={ <Skills/> }/>
-                  <Route path={ links.WorkHistory } element={ <WorkHistory/> }/>
-                  <Route path={ links.Education } element={ <Education/> }/>
-                  <Route path={ links.Projects } element={ <Projects/> }/>
-                  <Route path={ links.Japanese } element={ <Japanese/> }/>
-                  <Route path={ links.DemoPage } element={ <DemoPage/> }/>
-                  <Route path={ links.Login } element={ <LoginPage/> }/>
-                  <Route path='*' element={ <NotFound/> }/>
-                </Routes>
-              </div>
+    <UserContextProvider>
+      <ThemeProvider theme={ theme }>
+        <BrowserRouter>
+          <div className="App">
+            <Navbar title={ navbarTitle } items={ navbarItems } />
+            <div className="main-content" style={{width: widthToSet, minHeight: heightToSet}}>
+              <Routes>
+                <Route path={ links.Home } element={ <Home/> }/>
+                <Route path={ links.Skills } element={ <Skills/> }/>
+                <Route path={ links.WorkHistory } element={ <WorkHistory/> }/>
+                <Route path={ links.Education } element={ <Education/> }/>
+                <Route path={ links.Projects } element={ <Projects/> }/>
+                <Route path={ links.Japanese } element={ <Japanese/> }/>
+                <Route path={ links.DemoPage } element={ <DemoPage/> }/>
+                <Route path={ links.Login } element={ <LoginPage/> }/>
+                <Route path='*' element={ <NotFound/> }/>
+              </Routes>
             </div>
-          </BrowserRouter>
-        </ThemeProvider>
-      </UserContextProvider>
-    </WindowContextProvider>
+          </div>
+        </BrowserRouter>
+      </ThemeProvider>
+    </UserContextProvider>
   );
 }
 

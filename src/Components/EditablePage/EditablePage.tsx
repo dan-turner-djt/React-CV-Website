@@ -21,7 +21,7 @@ const EditablePage = (props: EditablePageProps) => {
   const resourceName: string = props.resourceName;
   const formName: string = props.formName;
   const fields: Field[] = props.fields;
-  const { clientHeight, clientWidth } = useContext<WindowContextProps>(WindowContext);
+  const { clientWidth } = useContext<WindowContextProps>(WindowContext);
   const { loggedIn } = useContext<UserContextProps>(UserContext);
   const [editing, setEditing] = useState<boolean>(false);
   const [editingItem, setEditingItem] = useState<FormattedDoc>(null);
@@ -45,7 +45,8 @@ const EditablePage = (props: EditablePageProps) => {
     .catch((err) => {
       console.log(err);
     })
-  }, []);
+    console.log('fetched');
+  }, [props.localOnly, resourceName]);
 
   const handleSavePage = () => {
     setIsPending(true);

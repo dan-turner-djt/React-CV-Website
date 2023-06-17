@@ -14,10 +14,16 @@ export type WindowContextProviderProps = {
 
 export const WindowContextProvider: FC<WindowContextProviderProps> = ({ children }) => {
   const getVh = useCallback(() => {
-    return window.visualViewport.height;
+    return Math.max(
+      document.documentElement.clientHeight || 0,
+      window.innerHeight || 0
+    );
   }, []);
   const getVw = useCallback(() => {
-    return window.visualViewport.width;
+    return Math.max(
+      document.documentElement.clientWidth || 0,
+      window.innerWidth || 0
+    );
   }, []);
 
   const [clientHeight, setVh] = useState<number>(getVh());

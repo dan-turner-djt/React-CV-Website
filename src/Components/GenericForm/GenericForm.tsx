@@ -2,7 +2,7 @@ import './GenericForm.scss'
 import React, { FormEvent } from "react";
 import { useEffect, useRef, useState } from "react";
 import { DocInfo, FormattedDoc } from "../../utils";
-import { Button, PaletteColorOptions, ThemeProvider, createTheme } from '@mui/material';
+import { Button } from '@mui/material';
 
 export type Field = {
   id: number,

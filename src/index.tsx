@@ -4,6 +4,7 @@ import './main.scss';
 import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { initializeApp } from 'firebase/app';
+import { WindowContextProvider } from './Contexts/WindowContext';
 
 const firebaseConfig = {
   apiKey: "AIzaSyDGQewygLjxidHX8N-sWkD8fcqgqvjK4H8",
@@ -19,7 +20,9 @@ document.title = 'Dan Turner CV Website';
 const root: ReactDOM.Root = ReactDOM.createRoot(document.getElementById('root'));
 root.render(
   <React.StrictMode>
-    <App />
+    <WindowContextProvider>
+      <App />
+    </WindowContextProvider>
   </React.StrictMode>
 );
 
