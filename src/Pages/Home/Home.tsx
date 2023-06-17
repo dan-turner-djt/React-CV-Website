@@ -11,7 +11,7 @@ const Home = () => {
       <h2 className="page-title">Welcome</h2>
       <div className="content" style={{width: widthToSet}}>
         <p><i>A motivated software developer with a passion for solving problems with real world applications.</i></p>
-        <p>With a master’s degree in computer science, 4 years academic experience and almost 2 years
+        <p>With a master’s degree in computer science, 4 years academic experience and 2 years
           professional experience in the software industry, I am a multi-skilled and adaptable developer
           with knowledge of both front-end and back-end languages and technologies. I am keen to
           continue developing these skills and put my abilities to use in helping people and companies.</p>
