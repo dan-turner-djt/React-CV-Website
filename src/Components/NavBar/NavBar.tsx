@@ -6,6 +6,7 @@ import { Auth, getAuth, signOut } from "firebase/auth";
 import { UserContext, UserContextProps } from "../../Contexts/UserContext";
 import { AppBar, Box, Button, Container, IconButton, Menu, MenuItem, Toolbar, Typography } from '@mui/material';
 import MenuIcon from '@mui/icons-material/Menu';
+import { WindowContext, WindowContextProps } from '../../Contexts/WindowContext';
 
 export type NavbarProps = {
   title: string;
@@ -13,9 +14,12 @@ export type NavbarProps = {
 }
 
 const Navbar = (props: NavbarProps) => {
+  const { clientWidth } = useContext<WindowContextProps>(WindowContext);
   const { loggedIn } = useContext<UserContextProps>(UserContext);
   const auth: Auth = getAuth();
   const navigator: NavigateFunction = useNavigate();
+  const showLoginButtonThreshold = 450;
+  let xsSideItemsWidth: string = clientWidth < showLoginButtonThreshold? '10px' : '100px';
 
   const [anchorElNav, setAnchorElNav] = React.useState<null | HTMLElement>(null);
 
@@ -27,7 +31,7 @@ const Navbar = (props: NavbarProps) => {
     setAnchorElNav(null);
   };
 
-  const menuItemClicked = (itemLink: string) => {
+  const menuLinkClicked = (itemLink: string) => {
     handleCloseNavMenu();
     cleanupBeforeNav();
     navigator(itemLink);
@@ -56,9 +60,9 @@ const Navbar = (props: NavbarProps) => {
   return ( 
     <nav data-cy="navbar" className="navbar">
       <AppBar color="appbarBlue">
-        <Container maxWidth={false}>
+        <Container maxWidth={false} sx={{ paddingLeft: '6px', paddingRight: '6px'}}>
           <Toolbar className="toolbar" disableGutters>
-            <Box sx={{ display: { xs: 'flex', lg: 'none' }, width: '100px', justifyContent: 'left' }}>
+            <Box sx={{ display: { xs: 'flex', lg: 'none' }, width: xsSideItemsWidth, justifyContent: 'left' }}>
               <IconButton
                 size="large"
                 aria-label="Menu"
@@ -68,31 +72,36 @@ const Navbar = (props: NavbarProps) => {
                 color="inherit">
                 <MenuIcon></MenuIcon>
               </IconButton>
-              <Menu
-                id="menu-appbar"
-                anchorEl={anchorElNav}
-                anchorOrigin={{
-                  vertical: 'bottom',
-                  horizontal: 'left',
-                }}
-                keepMounted
-                transformOrigin={{
-                  vertical: 'top',
-                  horizontal: 'left',
-                }}
-                open={Boolean(anchorElNav)}
-                onClose={handleCloseNavMenu}
-                sx={{
-                  display: { xs: 'block', md: 'none' },
-                }}>
-                {props.items.map((item: {name: string, link: string}) => (
-                  <MenuItem key={item.name} onClick={() => menuItemClicked(item.link)}>
-                    <Typography textAlign="center">{item.name}</Typography>
-                  </MenuItem>
-                ))}
-              </Menu>
             </Box>
-            <Box sx={{ display: { xs: 'block', lg: 'flex' }, width: '230px', justifyContent: 'left' }}>
+            <Menu
+              id="menu-appbar"
+              anchorEl={anchorElNav}
+              anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'left',
+              }}
+              keepMounted
+              disableScrollLock={true}
+              transformOrigin={{
+                vertical: 'top',
+                horizontal: 'left',
+              }}
+              open={Boolean(anchorElNav)}
+              onClose={handleCloseNavMenu}
+              sx={{
+                display: { xs: 'block', lg: 'none' },
+              }}>
+              {props.items.map((item: {name: string, link: string}) => (
+                <MenuItem key={item.name} onClick={() => menuLinkClicked(item.link)}>
+                  <Typography textAlign="center">{item.name}</Typography>
+                </MenuItem>
+              ))}
+              {clientWidth < showLoginButtonThreshold && 
+                <MenuItem key="login" onClick={() => { handleCloseNavMenu(); (loggedIn? handleLogout() : handleLogin()) }}>
+                  <Typography textAlign="center">{ loggedIn? "Logout" : "Login" }</Typography>
+                </MenuItem>}
+            </Menu>
+            <Box sx={{ display: { xs: 'block', lg: 'flex' }, width: '220px', justifyContent: 'left' }}>
               <h1>{ props.title }</h1>
             </Box>
             <Box sx={{ display: { xs: 'none', lg: 'block' } }}>
@@ -104,9 +113,10 @@ const Navbar = (props: NavbarProps) => {
                 ))}
               </div>
             </Box>
-            <Box sx={{ width: { xs: '100px', lg: '230px'}, display: 'flex', justifyContent: 'right' }}>
-              <Button data-cy="login-button" variant="contained" color="darkBlue" type="button" onClick={ loggedIn? handleLogout : handleLogin }>
-                { loggedIn? "Logout" : "Login" }</Button>
+            <Box sx={{ width: { xs: xsSideItemsWidth, lg: '230px'}, display: 'flex', justifyContent: 'right' }}>
+              {clientWidth >= showLoginButtonThreshold && 
+                <Button data-cy="login-button" className="login-button" variant="contained" color="darkBlue" type="button" onClick={ loggedIn? handleLogout : handleLogin }>
+                  { loggedIn? "Logout" : "Login" }</Button>}
             </Box>
           </Toolbar>
         </Container>
