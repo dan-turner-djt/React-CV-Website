@@ -14,6 +14,7 @@ import LoginPage from './Pages/LoginPage/LoginPage';
 import { WindowContext, WindowContextProps } from './Contexts/WindowContext';
 import { UserContextProvider } from './Contexts/UserContext';
 import { PaletteColorOptions, ThemeProvider, createTheme } from '@mui/material';
+import { Helmet } from "react-helmet";
 
 export interface AppProps {}
 
