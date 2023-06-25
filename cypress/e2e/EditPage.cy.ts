@@ -8,7 +8,9 @@ describe('Edit page', () => {
       cy.get('[data-cy=password-input]').type(creds.password);
     })
     cy.get('[data-cy=login-submit]').click();
-    cy.wait(1000);
+    cy.wait(500);
+  })
+  beforeEach(() => {
     cy.visit(page);
   })
   it ('can add entries', () => {

@@ -9,6 +9,7 @@ describe('Login', () => {
   describe('Attempt login', () => {
     beforeEach(() => {
       cy.visit('/login');
+      cy.wait(1000);
       cy.get('[data-cy=username-input]').clear();
       cy.get('[data-cy=password-input]').clear();
     })
@@ -33,6 +34,7 @@ describe('Login', () => {
   })
   describe('Logout', () => {
     it('will logout', () => {
+      cy.visit('/');
       const logoutButton = cy.get('[data-cy=login-button');
       logoutButton.contains('Logout');
       logoutButton.click();
