@@ -8,7 +8,7 @@ import Education from './Pages/EditablePages/Education/Education';
 import Projects from './Pages/EditablePages/Projects/Projects';
 import Japanese from './Pages/EditablePages/Japanese/Japanese';
 import NotFound from './Pages/NotFound/NotFound';
-import Navbar from './Components/NavBar/NavBar';
+import Appbar from './Components/AppBar/Appbar';
 import DemoPage from './Pages/EditablePages/DemoPage/DemoPage';
 import LoginPage from './Pages/LoginPage/LoginPage';
 import { WindowContext, WindowContextProps } from './Contexts/WindowContext';
@@ -49,8 +49,8 @@ const theme = createTheme({
 });
 
 const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
-  const navbarTitle: string = "DAN TURNER";
-  const navbarItems: {name: string, link: string}[] = [
+  const appbarTitle: string = "DAN TURNER";
+  const appbarItems: {name: string, link: string}[] = [
     { name: "Home", link: links.Home },
     { name: "Skills", link: links.Skills },
     { name: "Career", link: links.WorkHistory },
@@ -69,7 +69,7 @@ const App: React.FunctionComponent<AppProps> = (props: AppProps) => {
       <ThemeProvider theme={ theme }>
         <BrowserRouter>
           <div className="App">
-            <Navbar title={ navbarTitle } items={ navbarItems } />
+            <Appbar title={ appbarTitle } items={ appbarItems } />
             <div className="main-content" style={{width: widthToSet, minHeight: heightToSet}}>
               <Routes>
                 <Route path={ links.Home } element={ <Home/> }/>

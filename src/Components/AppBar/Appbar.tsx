@@ -1,4 +1,4 @@
-import './NavBar.scss';
+import './Appbar.scss';
 import React, { useContext } from "react";
 import { Link, NavigateFunction, useNavigate } from "react-router-dom";
 import { Links } from "../../utils";
@@ -8,12 +8,12 @@ import { AppBar, Box, Button, Container, IconButton, Menu, MenuItem, Toolbar, Ty
 import MenuIcon from '@mui/icons-material/Menu';
 import { WindowContext, WindowContextProps } from '../../Contexts/WindowContext';
 
-export type NavbarProps = {
+export type AppbarProps = {
   title: string;
   items: {name: string, link: string}[];
 }
 
-const Navbar = (props: NavbarProps) => {
+const Appbar = (props: AppbarProps) => {
   const { clientWidth } = useContext<WindowContextProps>(WindowContext);
   const { loggedIn } = useContext<UserContextProps>(UserContext);
   const auth: Auth = getAuth();
@@ -58,12 +58,13 @@ const Navbar = (props: NavbarProps) => {
   }
 
   return ( 
-    <nav data-cy="navbar" className="navbar">
+    <nav data-cy="appbar" className="appbar">
       <AppBar color="appbarBlue">
         <Container maxWidth={false} sx={{ paddingLeft: '6px', paddingRight: '6px'}}>
           <Toolbar className="toolbar" disableGutters>
             <Box sx={{ display: { xs: 'flex', lg: 'none' }, width: xsSideItemsWidth, justifyContent: 'left' }}>
               <IconButton
+                data-cy="menu-button"
                 size="large"
                 aria-label="Menu"
                 aria-controls="menu-appbar"
@@ -92,12 +93,12 @@ const Navbar = (props: NavbarProps) => {
                 display: { xs: 'block', lg: 'none' },
               }}>
               {props.items.map((item: {name: string, link: string}) => (
-                <MenuItem key={item.name} onClick={() => menuLinkClicked(item.link)}>
+                <MenuItem data-cy="link-menu-item" key={item.name} onClick={() => menuLinkClicked(item.link)}>
                   <Typography textAlign="center">{item.name}</Typography>
                 </MenuItem>
               ))}
               {clientWidth < showLoginButtonThreshold && 
-                <MenuItem key="login" onClick={() => { handleCloseNavMenu(); (loggedIn? handleLogout() : handleLogin()) }}>
+                <MenuItem data-cy="login-menu-item" key="login" onClick={() => { handleCloseNavMenu(); (loggedIn? handleLogout() : handleLogin()) }}>
                   <Typography textAlign="center">{ loggedIn? "Logout" : "Login" }</Typography>
                 </MenuItem>}
             </Menu>
@@ -108,7 +109,7 @@ const Navbar = (props: NavbarProps) => {
               <div className="appbar-links">
                 {props.items.map((item: {name: string, link: string}) => (
                   <span className="item" key={ item.name }>
-                    <Link onClick={cleanupBeforeNav} to={ item.link }>{ item.name }</Link>
+                    <Link data-cy="page-link" onClick={cleanupBeforeNav} to={ item.link }>{ item.name }</Link>
                   </span>
                 ))}
               </div>
@@ -125,4 +126,4 @@ const Navbar = (props: NavbarProps) => {
   );
 }
  
-export default Navbar;
+export default Appbar;
