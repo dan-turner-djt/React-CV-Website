@@ -14,7 +14,7 @@
     "@testing-library/user-event": "^13.5.0",
     "@types/react-helmet": "^6.1.6",
     "cypress": "^12.14.0",
-    "firebase": "^9.19.1",
+    "firebase": "^9.23.0",
     "firebase-tools": "^11.25.3",
     "react": "^18.2.0",
     "react-dom": "^18.2.0",
@@ -55,6 +55,7 @@
     ]
   },
   "devDependencies": {
+    "@types/react": "^18.3.16",
     "@types/react-router-dom": "^5.3.3"
   }
 }
