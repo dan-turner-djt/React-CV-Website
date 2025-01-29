@@ -39,6 +39,7 @@ const WorkHistory = () => {
             <h3>{ item.doc.name } - { item.doc.company}, { item.doc.location }</h3>
             <ReactMarkdown>{ item.doc.info }</ReactMarkdown>
             { renderEditButtons(item) }
+            <br></br>
           </div>
         ))}
       </div> 
